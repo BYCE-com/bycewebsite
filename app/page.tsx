@@ -44,7 +44,17 @@ export default function Home() {
     {menu && <nav className="fixed inset-0 z-30 grid place-items-center bg-[#b8ee3e] text-[#101112]"><div className="text-center"><p className="mb-8 text-[10px] font-bold tracking-[.25em]">SELECT YOUR CHAPTER</p>{["THE CLUB", "THE METHOD", "SCHEDULE", "VISIT BYCE"].map((x,i)=><a onClick={()=>setMenu(false)} href={i===3?"#join":"#method"} className="block text-5xl font-black leading-[1.05] tracking-[-.09em] hover:italic md:text-8xl" key={x}>{x}</a>)}</div></nav>}
 
     <section id="top" className="relative isolate flex min-h-screen overflow-hidden px-5 pb-8 pt-28 md:px-10">
-      <div style={{ transform: `scale(${1 + Math.min(scrollY * 0.00008, 0.08)}) translateY(${Math.min(scrollY * 0.035, 30)}px)` }} className="hero-image absolute inset-0 -z-20 bg-[url('/images/byce-hero.png')] bg-cover bg-[center_54%] opacity-80" />
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/images/byce-hero.png"
+        style={{ transform: `scale(${1 + Math.min(scrollY * 0.00008, 0.08)}) translateY(${Math.min(scrollY * 0.035, 30)}px)` }}
+        className="hero-video absolute inset-0 -z-20 h-full w-full object-cover opacity-80"
+      >
+        <source src="https://assets.mixkit.co/active_storage/video_items/100546/1725385655/100546-video-720.mp4" type="video/mp4" />
+      </video>
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,11,10,.94)_0%,rgba(10,11,10,.47)_54%,rgba(10,11,10,.2)_100%),linear-gradient(0deg,rgba(10,11,10,.75),transparent_55%)]" />
       <div className="mt-auto w-full"><p className="mb-3 text-[10px] font-bold tracking-[.22em] text-[#b8ee3e]">A NEW KIND OF TRAINING CLUB — EST. 2026</p><h1 style={{ transform: `translateY(${Math.min(scrollY * 0.1, 72)}px) scale(${1 - Math.min(scrollY * 0.000035, 0.06)})` }} className="hero-title max-w-5xl text-[17vw] font-black uppercase leading-[.76] tracking-[-.115em] md:text-[12vw]">MOVE<br/><span className="ml-[10vw] text-[#b8ee3e]">WITH</span><br/>INTENT.</h1><div className="mt-8 flex items-end justify-between border-t border-white/30 pt-4 text-[11px] font-bold tracking-[.12em]"><span>CHENNAI / INDIA</span><a href="#method" className="flex items-center gap-2">SCROLL TO EXPLORE <ArrowDownRight size={18}/></a></div></div>
     </section>
