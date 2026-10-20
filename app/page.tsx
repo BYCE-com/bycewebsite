@@ -35,7 +35,6 @@ export default function Home() {
   }, []);
   return <main onMouseMove={(event) => { event.currentTarget.style.setProperty("--spot-x", `${event.clientX}px`); event.currentTarget.style.setProperty("--spot-y", `${event.clientY}px`); }} className="site-shell bg-[#101112] text-[#f3f0e8] selection:bg-[#b8ee3e] selection:text-black">
     <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
-    <div className="scanline" aria-hidden="true" />
     <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-5 py-5 mix-blend-difference md:px-10">
       <a href="#top" className="flex items-center gap-2 font-black tracking-[-.12em] text-2xl">BYCE<span className="h-2 w-2 rounded-full bg-[#b8ee3e]" /></a>
       <div className="hidden items-center gap-8 text-[10px] font-bold tracking-[.16em] md:flex"><span>CHENNAI, IN</span><span>{time} IST</span><a href="#join" className="underline underline-offset-4">JOIN THE CLUB</a></div>
