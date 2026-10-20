@@ -20,10 +20,52 @@ export default function Home() {
   const [time, setTime] = useState("06:42");
   const [scrollY, setScrollY] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [railX, setRailX] = useState(0);
   const filmRef = useRef<HTMLElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   useEffect(() => { const tick = () => setTime(new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Kolkata" }).format(new Date())); tick(); const id = setInterval(tick, 30000); return () => clearInterval(id); }, []);
+  useEffect(() => {
+    const film = filmRef.current;
+    const rail = railRef.current;
+    if (!film || !rail) return;
+    let targetScroll = rail.scrollLeft;
+    let animId = 0;
+    const smoothScroll = () => {
+      const current = rail.scrollLeft;
+      const max = rail.scrollWidth - rail.clientWidth;
+      const diff = targetScroll - current;
+      if (Math.abs(diff) > 0.5) {
+        rail.scrollLeft = Math.max(0, Math.min(max, current + diff * 0.25));
+        animId = requestAnimationFrame(smoothScroll);
+      } else {
+        rail.scrollLeft = targetScroll;
+        animId = 0;
+      }
+    };
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || e.deltaY === 0) return;
+      const maxScroll = rail.scrollWidth - rail.clientWidth;
+      if (maxScroll <= 10) return;
+      const current = rail.scrollLeft;
+      if (e.deltaY > 0) {
+        if (current < maxScroll - 25) {
+          e.preventDefault();
+          targetScroll = Math.max(0, Math.min(maxScroll, (animId ? targetScroll : current) + e.deltaY));
+          if (!animId) animId = requestAnimationFrame(smoothScroll);
+        }
+      } else if (e.deltaY < 0) {
+        if (current > 25) {
+          e.preventDefault();
+          targetScroll = Math.max(0, Math.min(maxScroll, (animId ? targetScroll : current) + e.deltaY));
+          if (!animId) animId = requestAnimationFrame(smoothScroll);
+        }
+      }
+    };
+    film.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      film.removeEventListener("wheel", onWheel);
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, []);
   useEffect(() => {
     let frame = 0;
     const onScroll = () => {
@@ -32,24 +74,10 @@ export default function Home() {
         const y = window.scrollY;
         setScrollY(y);
         setScrollProgress(Math.min(y / Math.max(document.documentElement.scrollHeight - window.innerHeight, 1), 1));
-        const film = filmRef.current;
-        const rail = railRef.current;
-        if (film && rail) {
-          const rect = film.getBoundingClientRect();
-          const total = film.offsetHeight - window.innerHeight;
-          if (total > 0) {
-            const progress = Math.min(Math.max(-rect.top / total, 0), 1);
-            const maxTranslate = rail.scrollWidth - window.innerWidth + (window.innerWidth < 768 ? 40 : 80);
-            if (maxTranslate > 0) {
-              setRailX(progress * maxTranslate);
-            }
-          }
-        }
       });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("is-visible"); }), { threshold: 0.12 });
     document.querySelectorAll("main h1, main h2, main h3, main p, main a, main button, main span, .reveal").forEach((item, index) => {
       item.classList.add("motion-text");
@@ -58,7 +86,6 @@ export default function Home() {
     });
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
@@ -92,11 +119,9 @@ export default function Home() {
 
     <section id="method" className="border-y border-white/15 px-5 md:px-10"><div className="py-8 text-[10px] font-bold tracking-[.2em] text-white/50">[ THE BYCE METHOD ]</div>{sessions.map(([number,title,body], index)=><article key={title} className="group reveal grid items-center border-t border-white/15 py-7 md:grid-cols-12 md:py-10"><span className="text-xs font-bold text-[#b8ee3e] md:col-span-2">{number}</span><h3 className="mt-5 text-5xl font-black tracking-[-.09em] transition-all group-hover:pl-4 group-hover:text-[#b8ee3e] md:col-span-6 md:mt-0 md:text-7xl">{title}</h3><p className="mt-4 max-w-48 text-sm text-white/55 md:col-span-3 md:mt-0">{body}</p><Plus className="mt-4 md:mt-0 md:justify-self-end" />{index === 2 && null}</article>)}</section>
 
-    <section ref={filmRef} className="chapter-film relative h-[250vh]">
-      <div className="sticky top-0 flex h-screen flex-col justify-start overflow-hidden pt-14 pb-8 md:pt-20 md:pb-12">
-        <div className="chapter-film__heading px-5 md:px-10"><p>[ 02 / INSIDE A SESSION ]</p><h2>THE<br/>RITUAL.</h2><span>SCROLL THROUGH THE CHAPTERS <ArrowDownRight size={16}/></span></div>
-        <div ref={railRef} style={{ transform: `translate3d(-${railX}px, 0, 0)` }} className="chapter-rail">{storyChapters.map(([number, title, description, detail], index) => <article className={`chapter-card chapter-card--${index + 1}`} key={title}><div className="chapter-card__top"><span>{number}</span><span>BYCE / {detail}</span></div><div className="chapter-card__body"><p>{description}</p><h3>{title}</h3><button aria-label={`Explore ${title}`}><ArrowUpRight size={22}/></button></div><div className="chapter-card__count">0{index + 1} / 03</div></article>)}</div>
-      </div>
+    <section ref={filmRef} className="chapter-film py-20 md:py-28">
+      <div className="chapter-film__heading px-5 md:px-10"><p>[ 02 / INSIDE A SESSION ]</p><h2>THE<br/>RITUAL.</h2><span>SCROLL THROUGH THE CHAPTERS <ArrowDownRight size={16}/></span></div>
+      <div ref={railRef} className="chapter-rail">{storyChapters.map(([number, title, description, detail], index) => <article className={`chapter-card chapter-card--${index + 1}`} key={title}><div className="chapter-card__top"><span>{number}</span><span>BYCE / {detail}</span></div><div className="chapter-card__body"><p>{description}</p><h3>{title}</h3><button aria-label={`Explore ${title}`}><ArrowUpRight size={22}/></button></div><div className="chapter-card__count">0{index + 1} / 03</div></article>)}</div>
     </section>
 
     <section className="relative min-h-[70vh] overflow-hidden px-5 py-24 md:px-10"><div className="absolute inset-0 bg-[#d8dfc7] opacity-95"/><div className="relative z-10 grid gap-12 text-[#101112] md:grid-cols-12"><p className="reveal text-[10px] font-bold tracking-[.2em] md:col-span-3">[ TRAINING IS A PRACTICE ]</p><div className="reveal md:col-span-8 md:col-start-5"><p className="text-[11vw] font-black uppercase leading-[.8] tracking-[-.1em] md:text-[8vw]">THE<br/>WORK<br/><span className="text-[#5a8d18]">SHOWS.</span></p><div className="mt-12 flex max-w-md items-center justify-between border-t border-black/30 pt-4"><span className="text-xs font-bold">03 DISCIPLINES / ONE STANDARD</span><button className="grid h-14 w-14 place-items-center rounded-full bg-[#101112] text-[#b8ee3e] transition-transform hover:scale-110" aria-label="Play BYCE film"><Play size={17} fill="currentColor"/></button></div></div></div></section>
