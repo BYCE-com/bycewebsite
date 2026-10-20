@@ -43,18 +43,17 @@ export default function Home() {
     };
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || e.deltaY === 0) return;
-      const rect = film.getBoundingClientRect();
+      const railRect = rail.getBoundingClientRect();
       const vh = window.innerHeight;
-      const isMouseOver = film.contains(e.target as Node);
 
       const maxScroll = rail.scrollWidth - rail.clientWidth;
       if (maxScroll <= 10) return;
       const current = rail.scrollLeft;
 
       if (e.deltaY > 0) {
-        // Scrolling DOWN: only lock once section has scrolled up into viewing frame
-        const isInViewDown = (rect.top <= 80 && rect.bottom >= vh * 0.4) || isMouseOver;
-        if (!isInViewDown) return;
+        // Scrolling DOWN: only start when the entire cards UI component is in view (not half screen)
+        const isEntireComponentInViewDown = railRect.top <= 90 && railRect.bottom >= vh * 0.8;
+        if (!isEntireComponentInViewDown) return;
 
         // Must complete 1 to 3 before allowing remaining scroll downwards
         if (targetScroll < maxScroll - 10 || current < maxScroll - 15) {
@@ -63,9 +62,9 @@ export default function Home() {
           if (!animId) animId = requestAnimationFrame(smoothScroll);
         }
       } else if (e.deltaY < 0) {
-        // Scrolling UP: only lock once section has scrolled down into viewing frame
-        const isInViewUp = (rect.top >= -160 && rect.top <= 120 && rect.bottom >= vh * 0.4) || isMouseOver;
-        if (!isInViewUp) return;
+        // Scrolling UP: only start when the entire cards UI component is in view (not half screen)
+        const isEntireComponentInViewUp = railRect.top >= -60 && railRect.top <= 90 && railRect.bottom >= vh * 0.8;
+        if (!isEntireComponentInViewUp) return;
 
         // Must complete 3 to 1 before allowing remaining scroll upwards
         if (targetScroll > 10 || current > 15) {
