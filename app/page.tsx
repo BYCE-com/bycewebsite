@@ -119,7 +119,6 @@ export default function Home() {
         muted
         loop
         playsInline
-        poster="/images/byce-hero.png"
         style={{ transform: `scale(${1 + Math.min(scrollY * 0.00008, 0.08)}) translateY(${Math.min(scrollY * 0.035, 30)}px)` }}
         className="hero-video absolute inset-0 -z-20 h-full w-full object-cover opacity-80"
       >
