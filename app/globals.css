@@ -9,6 +9,7 @@ body { margin:0; font-family: Inter, Arial, sans-serif; }
 ::selection { background:#b8ee3e; color:#101112; }
 .site-shell { --spot-x: 50vw; --spot-y: 30vh; position:relative; isolation:isolate; overflow:hidden; }
 .site-shell::before { content:""; position:fixed; z-index:20; inset:0; pointer-events:none; opacity:.16; background:radial-gradient(500px circle at var(--spot-x) var(--spot-y), rgba(184,238,62,.18), transparent 58%); mix-blend-mode:screen; transition:background 180ms ease-out; }
+.site-shell::after { content:""; position:fixed; z-index:20; inset:0; pointer-events:none; opacity:.045; background-image:linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px, transparent 1px); background-size:48px 48px; mask-image:linear-gradient(to bottom, black, transparent 80%); }
 .scroll-progress { position:fixed; z-index:60; top:0; left:0; height:3px; width:100%; transform-origin:left; background:#b8ee3e; box-shadow:0 0 18px #b8ee3e; }
 .hero-image, .hero-video { will-change:transform; transition:transform 110ms linear; }
 .hero-title { transform-origin: left bottom; will-change: transform; transition: transform 90ms linear; text-shadow:0 0 40px rgba(184,238,62,.06); }
@@ -43,5 +44,5 @@ main a.motion-text:hover, main button.motion-text:hover { letter-spacing:.16em; 
 .chapter-card__body button { display:grid; width:3.75rem; height:3.75rem; margin-top:2rem; place-items:center; border:1px solid rgba(243,240,232,.5); border-radius:999px; background:transparent; color:#f3f0e8; transition:background .35s ease,color .35s ease,transform .35s ease; }
 .chapter-card__body button:hover { color:#101112; background:#b8ee3e; transform:rotate(45deg); }
 .chapter-card__count { align-self:flex-end; font-size:10px; font-weight:700; letter-spacing:.15em; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } .reveal, .motion-text { opacity: 1; transform: none; filter:none; } .site-shell::before { display:none; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } .reveal, .motion-text { opacity: 1; transform: none; filter:none; } .site-shell::before, .site-shell::after { display:none; } }
 @media (min-width: 768px) { .chapter-film__heading { padding-left:2.5rem; padding-right:2.5rem; margin-bottom:3rem; } .chapter-rail { padding-left:2.5rem; padding-right:2.5rem; } .chapter-card { flex-basis:min(54vw,760px); min-height:640px; padding:2rem; } }
