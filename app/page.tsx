@@ -45,30 +45,34 @@ export default function Home() {
       if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || e.deltaY === 0) return;
       const rect = film.getBoundingClientRect();
       const vh = window.innerHeight;
-      const isInArea = rect.top <= 60 && rect.bottom >= vh * 0.4;
       const isMouseOver = film.contains(e.target as Node);
-      if (!isInArea && !isMouseOver) return;
 
       const maxScroll = rail.scrollWidth - rail.clientWidth;
       if (maxScroll <= 10) return;
       const current = rail.scrollLeft;
 
       if (e.deltaY > 0) {
-        // Scrolling downwards: lock vertical scroll until 1 to 3 completes
+        // Scrolling DOWN: only lock once section has scrolled up into viewing frame
+        const isInViewDown = (rect.top <= 80 && rect.bottom >= vh * 0.4) || isMouseOver;
+        if (!isInViewDown) return;
+
+        // Must complete 1 to 3 before allowing remaining scroll downwards
         if (targetScroll < maxScroll - 10 || current < maxScroll - 15) {
           e.preventDefault();
           targetScroll = Math.max(0, Math.min(maxScroll, (animId ? targetScroll : current) + e.deltaY));
           if (!animId) animId = requestAnimationFrame(smoothScroll);
         }
-        // Once 1 to 3 completed, allow to scroll remaining downwards!
       } else if (e.deltaY < 0) {
-        // Scrolling upwards: lock vertical scroll until 3 to 1 completes
+        // Scrolling UP: only lock once section has scrolled down into viewing frame
+        const isInViewUp = (rect.top >= -160 && rect.top <= 120 && rect.bottom >= vh * 0.4) || isMouseOver;
+        if (!isInViewUp) return;
+
+        // Must complete 3 to 1 before allowing remaining scroll upwards
         if (targetScroll > 10 || current > 15) {
           e.preventDefault();
           targetScroll = Math.max(0, Math.min(maxScroll, (animId ? targetScroll : current) + e.deltaY));
           if (!animId) animId = requestAnimationFrame(smoothScroll);
         }
-        // Once 3 to 1 completed, allow to scroll remaining upwards!
       }
     };
     window.addEventListener("wheel", onWheel, { passive: false });
