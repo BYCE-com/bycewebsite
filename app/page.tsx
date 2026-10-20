@@ -9,6 +9,11 @@ const sessions = [
   ["02", "CONDITIONING", "Make your engine last."],
   ["03", "RECOVERY", "Restore. Repeat. Evolve."],
 ];
+const storyChapters = [
+  ["01", "PRIME", "Arrive with a plan. Leave with proof.", "WARM UP / MOBILITY / FOCUS"],
+  ["02", "LOAD", "The work gets heavy. Your standards do not.", "STRENGTH / POWER / ENGINE"],
+  ["03", "RESET", "Recover with as much intention as you train.", "BREATH / SAUNA / RESTORE"],
+];
 
 export default function Home() {
   const [menu, setMenu] = useState(false);
@@ -47,6 +52,11 @@ export default function Home() {
     <section className="grid gap-10 px-5 py-24 md:grid-cols-12 md:px-10 md:py-36"><p className="reveal text-[10px] font-bold tracking-[.2em] text-[#b8ee3e] md:col-span-3">[ 01 / THE CLUB ]</p><div className="reveal md:col-span-8 md:col-start-5"><h2 className="text-4xl font-black leading-[.93] tracking-[-.075em] md:text-7xl">WE DON’T CHASE THE AESTHETIC. WE BUILD THE CAPACITY.</h2><p className="mt-9 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">BYCE is a training ground for people who like their movement useful, their effort honest and their progress measurable. No mirrors to perform for. Just a room built to become more capable.</p><a href="#join" className="mt-10 inline-flex items-center gap-3 border-b border-[#b8ee3e] pb-2 text-xs font-bold tracking-[.14em] text-[#b8ee3e]">MEET THE CLUB <ArrowUpRight size={17}/></a></div></section>
 
     <section id="method" className="border-y border-white/15 px-5 md:px-10"><div className="py-8 text-[10px] font-bold tracking-[.2em] text-white/50">[ THE BYCE METHOD ]</div>{sessions.map(([number,title,body], index)=><article key={title} className="group reveal grid items-center border-t border-white/15 py-7 md:grid-cols-12 md:py-10"><span className="text-xs font-bold text-[#b8ee3e] md:col-span-2">{number}</span><h3 className="mt-5 text-5xl font-black tracking-[-.09em] transition-all group-hover:pl-4 group-hover:text-[#b8ee3e] md:col-span-6 md:mt-0 md:text-7xl">{title}</h3><p className="mt-4 max-w-48 text-sm text-white/55 md:col-span-3 md:mt-0">{body}</p><Plus className="mt-4 md:mt-0 md:justify-self-end" />{index === 2 && null}</article>)}</section>
+
+    <section className="chapter-film py-20 md:py-28">
+      <div className="chapter-film__heading px-5 md:px-10"><p>[ 02 / INSIDE A SESSION ]</p><h2>THE<br/>RITUAL.</h2><span>SCROLL THROUGH THE CHAPTERS <ArrowDownRight size={16}/></span></div>
+      <div className="chapter-rail">{storyChapters.map(([number, title, description, detail], index) => <article className={`chapter-card chapter-card--${index + 1}`} key={title}><div className="chapter-card__top"><span>{number}</span><span>BYCE / {detail}</span></div><div className="chapter-card__body"><p>{description}</p><h3>{title}</h3><button aria-label={`Explore ${title}`}><ArrowUpRight size={22}/></button></div><div className="chapter-card__count">0{index + 1} / 03</div></article>)}</div>
+    </section>
 
     <section className="relative min-h-[70vh] overflow-hidden px-5 py-24 md:px-10"><div className="absolute inset-0 bg-[#d8dfc7] opacity-95"/><div className="relative z-10 grid gap-12 text-[#101112] md:grid-cols-12"><p className="reveal text-[10px] font-bold tracking-[.2em] md:col-span-3">[ TRAINING IS A PRACTICE ]</p><div className="reveal md:col-span-8 md:col-start-5"><p className="text-[11vw] font-black uppercase leading-[.8] tracking-[-.1em] md:text-[8vw]">THE<br/>WORK<br/><span className="text-[#5a8d18]">SHOWS.</span></p><div className="mt-12 flex max-w-md items-center justify-between border-t border-black/30 pt-4"><span className="text-xs font-bold">03 DISCIPLINES / ONE STANDARD</span><button className="grid h-14 w-14 place-items-center rounded-full bg-[#101112] text-[#b8ee3e] transition-transform hover:scale-110" aria-label="Play BYCE film"><Play size={17} fill="currentColor"/></button></div></div></div></section>
 
