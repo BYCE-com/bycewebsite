@@ -62,7 +62,7 @@ function Card({ item, x, still }: { item: ParallaxItem; x: MotionValue<number>; 
     >
       <img src={item.image} alt={item.alt} loading="lazy" decoding="async" draggable={false} className="absolute inset-0 h-full w-full object-cover object-center" />
       <div className="pointer-events-none absolute inset-0 bg-[#080909] opacity-0 transition-opacity duration-300 group-hover/card:opacity-70" />
-      <h3 className="pointer-events-none absolute bottom-5 left-5 text-2xl font-black uppercase tracking-[-.03em] text-[#f3f0e8] opacity-0 transition-opacity duration-300 group-hover/card:opacity-100 md:text-4xl">{item.title}</h3>
+      <h3 className="pointer-events-none t-display absolute bottom-5 left-5 right-5 text-xl text-[#f3f0e8] opacity-0 transition-opacity duration-300 group-hover/card:opacity-100 md:text-3xl">{item.title}</h3>
     </motion.div>
   );
 }

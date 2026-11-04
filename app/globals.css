@@ -4,7 +4,34 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; background:#101112; }
-body { margin:0; font-family: "General Sans", Arial, sans-serif; }
+body { margin:0; font-family: "General Sans", Arial, sans-serif; letter-spacing:-.01em; }
+/* Type system, after charlesleclerc.com (its wide, slanted wordmark) and graphichunters.com
+   (its wide, flat HNTRS wordmark), with tall condensed type as an occasional contrast:
+   - t-display: the main display face. Anybody at its widest (150%), heavy (850) and italic,
+     set tight (line-height .82, tracking -.02em). Caps are only .68em tall, so size headings
+     to their longest line.
+   - t-flat: the other half of a heading, after the graphichunters.com HNTRS wordmark.
+     Panchang extrabold (800), upright and flat against the slanted Anybody. Its heavy
+     letters already sit close, so no negative tracking (they fuse) and a wider word space
+     (its own is narrow). About as wide as Anybody with the same cap height, so line lengths
+     hold. THE BOARD, which stays light, uses Panchang regular.
+   - t-tall: Anton capitals, tall and condensed (line-height .88, tracking -.03em). Used
+     sparingly: THE RITUAL, the glass THE ROOM and the fan card titles.
+   - t-wide: an Anybody word inside a t-tall headline. At .46em a wide word comes out about
+     as long as the Anton line beside it (Anybody runs ~2.2× wider).
+   - t-caps: small UI capitals with open tracking, the counterweight to the tight display. */
+@layer components {
+  .t-display { font-family:Anybody, "Arial Black", sans-serif; font-style:italic; font-stretch:150%; font-weight:850; text-transform:uppercase; line-height:.82; letter-spacing:-.02em; }
+  .t-tall { font-family:Anton, Impact, "Arial Narrow", sans-serif; font-style:normal; font-stretch:normal; font-weight:400; text-transform:uppercase; line-height:.88; letter-spacing:-.03em; }
+  .t-wide { font-family:Anybody, "Arial Black", sans-serif; font-style:italic; font-stretch:150%; font-weight:850; font-size:.46em; line-height:.9; letter-spacing:-.02em; text-transform:uppercase; }
+  .t-caps { font-size:11px; font-weight:600; line-height:1.2; letter-spacing:.06em; text-transform:uppercase; }
+  /* After t-display and t-wide, so it wins when combined with either. */
+  .t-flat { font-family:Panchang, "Arial Black", sans-serif; font-style:normal; font-stretch:normal; font-weight:800; letter-spacing:0; word-spacing:.15em; }
+}
+.t-display.font-normal { font-family:Panchang, "Arial Black", sans-serif; font-style:normal; font-stretch:normal; letter-spacing:-.01em; }
+/* The same two faces for headings styled here rather than with the classes above. */
+.chapter-film::before, .chapter-card__body h3, .fan-caption__body strong { font-family:Anybody, "Arial Black", sans-serif; font-style:italic; font-stretch:150%; font-weight:850; letter-spacing:-.02em; }
+.fan-card__title, .refract { font-family:Anton, Impact, "Arial Narrow", sans-serif; font-weight:400; letter-spacing:-.02em; }
 ::selection { background:#b8ee3e; color:#101112; }
 /* overflow:clip (not hidden) so position:sticky still works for pinned sections inside. */
 .site-shell { position:relative; isolation:isolate; overflow:clip; }
@@ -23,25 +50,22 @@ body { margin:0; font-family: "General Sans", Arial, sans-serif; }
 .motion-text.is-visible { opacity:1; transform:translate3d(0,0,0); filter:blur(0); }
 main a.motion-text:hover, main button.motion-text:hover { letter-spacing:.16em; color:#b8ee3e; }
 .chapter-film { position:relative; background:#080909; overflow:hidden; }
-.chapter-film::before { content:"BYCE"; position:absolute; right:-.08em; top:.06em; font-size:28vw; font-weight:900; line-height:.7; letter-spacing:-.075em; color:rgba(184,238,62,.07); pointer-events:none; }
-.chapter-film__heading { position:relative; z-index:1; display:grid; grid-template-columns:1fr auto; align-items:end; gap:2rem; margin-bottom:3rem; }
-.chapter-film__heading h2 { margin:0; font-size:clamp(4.5rem,12vw,10rem); font-weight:900; letter-spacing:-.06em; line-height:.72; }
-.chapter-film__heading span { display:flex; align-items:center; gap:.5rem; font-size:10px; font-weight:700; letter-spacing:.15em; color:rgba(243,240,232,.6); }
+.chapter-film::before { content:"BYCE"; position:absolute; right:-.04em; top:.04em; font-size:16vw; line-height:.8; color:rgba(184,238,62,.07); pointer-events:none; }
+.chapter-film__heading { position:relative; z-index:1; margin-bottom:3rem; }
+.chapter-film__heading h2 { margin:0; font-size:clamp(5.2rem,15.5vw,14.5rem); }
 .chapter-rail { position:relative; z-index:1; display:flex; gap:1px; overflow-x:auto; padding:0 1.25rem 1rem; scrollbar-width:none; }
 .chapter-rail::-webkit-scrollbar { display:none; }
-.chapter-card { position:relative; display:flex; flex:0 0 min(82vw,760px); min-height:540px; flex-direction:column; justify-content:space-between; overflow:hidden; padding:1.4rem; background:#1a1d19; isolation:isolate; transition:transform .5s cubic-bezier(.16,1,.3,1),filter .5s ease; }
+.chapter-card { position:relative; display:flex; flex:0 0 min(82vw,760px); min-height:540px; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:1.4rem; background:#1a1d19; isolation:isolate; transition:transform .5s cubic-bezier(.16,1,.3,1),filter .5s ease; }
 /* Drifting light layer behind each chapter card (see HaloDrift). */
 .chapter-card__halo { position:absolute; z-index:-1; inset:0; transition:transform 1.2s cubic-bezier(.16,1,.3,1); }
 .chapter-card:hover { transform:translateY(-12px); filter:brightness(1.14); }
 .chapter-card:hover .chapter-card__halo { transform:scale(1.06); }
-.chapter-card__top { display:flex; justify-content:space-between; gap:1rem; font-size:10px; font-weight:700; letter-spacing:.14em; }
-.chapter-card__body p { max-width:18rem; font-size:clamp(1.1rem,2vw,1.45rem); line-height:1.15; }
-.chapter-card__body h3 { margin:.5rem 0 0; font-size:clamp(4.5rem,10vw,8rem); font-weight:900; line-height:.7; letter-spacing:-.06em; }
+.chapter-card__body p { max-width:18rem; font-size:clamp(1.1rem,2vw,1.45rem); font-weight:500; line-height:1.15; letter-spacing:-.02em; }
+.chapter-card__body h3 { margin:.5rem 0 0; font-size:clamp(3rem,7vw,7.5rem); line-height:.82; }
 .chapter-card__body button { display:grid; width:3.75rem; height:3.75rem; margin-top:2rem; place-items:center; border:1px solid rgba(243,240,232,.5); border-radius:999px; background:transparent; color:#f3f0e8; transition:background .35s ease,border-color .35s ease,transform .35s ease; }
 /* Quiet hover over the drifting light: a faint chalk fill and a turned arrow. Higher
    specificity than the site-wide `main button.motion-text:hover`, which tints text lime. */
 main .chapter-card__body button:hover { color:#f3f0e8; letter-spacing:normal; background:rgba(243,240,232,.14); border-color:rgba(243,240,232,.85); transform:rotate(45deg); }
-.chapter-card__count { align-self:flex-end; font-size:10px; font-weight:700; letter-spacing:.15em; }
 .fan-section { position:relative; isolation:isolate; }
 .fan-section::before { content:""; position:absolute; z-index:-1; left:50%; bottom:-10%; width:110%; height:75%; transform:translateX(-50%); background:radial-gradient(closest-side,rgba(184,238,62,.08),transparent 72%); pointer-events:none; }
 .fan-stage { position:relative; margin:0; padding:0; list-style:none; touch-action:pan-y; }
@@ -62,25 +86,22 @@ main .chapter-card__body button:hover { color:#f3f0e8; letter-spacing:normal; ba
 .fan-stage[data-engaged="true"] .fan-card__img { filter:contrast(1.04) brightness(.48); }
 .fan-stage .fan-card[data-active="true"] .fan-card__img { filter:contrast(1.02) brightness(.98); transform:scale(1.1); }
 .fan-card__shade { position:absolute; inset:0; border-radius:inherit; background:linear-gradient(180deg,rgba(8,9,9,.6) 0%,transparent 26%,transparent 50%,rgba(8,9,9,.92) 100%); box-shadow:inset 0 0 0 1px rgba(243,240,232,.14); pointer-events:none; }
-.fan-card__meta { position:absolute; inset:0 0 auto; display:flex; justify-content:flex-end; gap:.5rem; padding:calc(var(--card-w) * .06); font-size:clamp(8px,calc(var(--card-w) * .04),10px); font-weight:700; letter-spacing:.16em; color:rgba(243,240,232,.75); }
-.fan-card__title { position:absolute; left:0; bottom:0; width:min-content; padding:calc(var(--card-w) * .065); font-size:calc(var(--card-w) * .15); font-weight:900; line-height:.82; letter-spacing:-.04em; text-transform:uppercase; color:#f3f0e8; }
-/* Side cards only show their outer edge, so keep the number and title on that side. */
+.fan-card__title { position:absolute; left:0; bottom:0; width:min-content; padding:calc(var(--card-w) * .065); font-size:calc(var(--card-w) * .17); line-height:.88; text-transform:uppercase; color:#f3f0e8; }
+/* Side cards only show their outer edge, so keep the title on that side. */
 .fan-card[data-side="right"] .fan-card__title { left:auto; right:0; text-align:right; }
-.fan-card[data-side="right"] .fan-card__meta { flex-direction:row-reverse; }
-.fan-caption { display:grid; grid-template-columns:auto 1fr; gap:1.5rem; max-width:38rem; min-height:7.5rem; margin:2.5rem auto 0; padding-top:1rem; border-top:1px solid rgba(255,255,255,.15); }
-.fan-caption__count { padding-top:.4rem; font-size:10px; font-weight:700; letter-spacing:.2em; color:#b8ee3e; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.fan-caption { max-width:38rem; min-height:7.5rem; margin:2.5rem auto 0; padding-top:1rem; border-top:1px solid rgba(255,255,255,.15); }
 .fan-caption__body { animation:fan-caption-in 600ms cubic-bezier(.16,1,.3,1); }
-.fan-caption__body strong { display:block; font-size:clamp(1.75rem,3.4vw,2.75rem); font-weight:900; line-height:.88; letter-spacing:-.037em; }
+.fan-caption__body strong { display:block; font-size:clamp(1.35rem,2.3vw,2.3rem); line-height:.88; }
 .fan-caption__body div { margin-top:.65rem; max-width:26rem; font-size:.9rem; line-height:1.5; color:rgba(243,240,232,.6); }
 @keyframes fan-caption-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
-.refract { --beam:-30; --angle:98deg; position:relative; margin:0; font-weight:900; text-transform:uppercase; }
+.refract { --beam:-30; --angle:98deg; position:relative; margin:0; text-transform:uppercase; }
 /* Each line clips at its baseline edge so letters rise out of it. */
 .refract__line { display:block; width:max-content; clip-path:inset(-.5em -.5em 0 -.5em); filter:drop-shadow(0 .05em .06em rgba(0,0,0,.6)); }
 /* Layers, top to bottom: dispersed beam, soft sheen around it, opaque glass body (opaque so
    overlapping letters, which share one background, join without seams). */
 .refract__glyph {
   --b:calc((var(--beam) + var(--r, 0)) * 1%);
-  display:inline-block; padding:.1em .12em; margin:-.1em -.12em; /* room for ink beyond the tight advance */
+  display:inline-block; padding:.1em .2em; margin:-.1em -.2em; /* room for ink beyond the tight advance, incl. the italic lean */
   color:transparent; -webkit-text-fill-color:transparent;
   background-image:
     linear-gradient(var(--angle), transparent calc(var(--b) - 17%), rgba(124,92,255,.55) calc(var(--b) - 11%), rgba(70,196,255,.7) calc(var(--b) - 6%), rgba(255,255,255,.95) calc(var(--b) - 2%), #fff var(--b), rgba(255,255,255,.9) calc(var(--b) + 1.5%), rgba(184,238,62,.85) calc(var(--b) + 4.5%), rgba(255,196,64,.6) calc(var(--b) + 8.5%), rgba(255,92,64,.3) calc(var(--b) + 12.5%), transparent calc(var(--b) + 17%)),

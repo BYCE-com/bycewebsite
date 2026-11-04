@@ -1,6 +1,6 @@
 // Built using Hyperiux Vault: https://vault.hyperiux.com (hyperiux/cards-rotate-slider on 21st.dev)
-// Adapted for BYCE: background is a prop (carbon here), captions use the site's type with a
-// lime step number, and ScrollTrigger re-measures once images and fonts above have loaded.
+// Adapted for BYCE: background is a prop (carbon here), captions use the site's display type,
+// and ScrollTrigger re-measures once images and fonts above have loaded.
 "use client";
 
 import { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
@@ -231,7 +231,7 @@ const RotationCard = forwardRef<HTMLDivElement, RotationCardProps>(({ src, index
 
       {showCaptions && text && (
         <div className="absolute inset-x-[4%] bottom-[7%] z-10 flex items-end justify-between gap-4" style={{ color: textColor }}>
-          <div className="text-[2.6vw] font-black uppercase leading-[.85] tracking-[-.03em] max-[1025px]:text-[4.4vw] max-md:text-[7vw]">{text}</div>
+          <div className="t-display text-[2.3vw] max-[1025px]:text-[3.9vw] max-md:text-[5.8vw]">{text}</div>
         </div>
       )}
     </div>

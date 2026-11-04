@@ -5,6 +5,8 @@ import { memo, useEffect, useRef, useState, type CSSProperties } from "react";
 type RefractedTextProps = {
   /** Each entry renders on its own line. */
   lines: readonly string[];
+  /** Optional classes per line, e.g. a different face or size for one line. */
+  lineClassNames?: readonly string[];
   className?: string;
   /** Seconds for the opening sweep of the beam across the word. */
   openDuration?: number;
@@ -24,7 +26,7 @@ const hash = (i: number) => {
  * scrolls into view, then the beam sweeps across and keeps drifting; the pointer pulls
  * the beam toward it and bends it through nearby letters.
  */
-function RefractedTextImpl({ lines, className = "", openDuration = 5.5, rest = 62, refraction = 8 }: RefractedTextProps) {
+function RefractedTextImpl({ lines, lineClassNames, className = "", openDuration = 5.5, rest = 62, refraction = 8 }: RefractedTextProps) {
   const rootRef = useRef<HTMLHeadingElement>(null);
   const [lifted, setLifted] = useState(false);
 
@@ -156,7 +158,7 @@ function RefractedTextImpl({ lines, className = "", openDuration = 5.5, rest = 6
   return (
     <h2 ref={rootRef} className={`refract ${className}`} aria-label={lines.join(" ")} data-lifted={lifted} data-own-motion="">
       {lines.map((line, li) => (
-        <span className="refract__line" aria-hidden="true" key={li}>
+        <span className={`refract__line ${lineClassNames?.[li] ?? ""}`} aria-hidden="true" key={li}>
           {Array.from(line).map((ch, ci) => (
             <span className="refract__glyph" key={ci} style={{ "--i": index++ } as CSSProperties}>
               {ch === " " ? " " : ch}
