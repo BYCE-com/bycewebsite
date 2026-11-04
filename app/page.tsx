@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownRight, ArrowUpRight, Menu, Play, X } from "lucide-react";
+import { ArrowUpRight, Menu, Play, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { MotionConfig, motion, useMotionTemplate, useReducedMotion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
 import { FloatingGallery } from "../components/floating-gallery";
@@ -17,16 +17,33 @@ import { GlassExitCarousel } from "../components/glass-exit-carousel";
 
 const methodPhoto = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&h=800&q=72`;
 const methodItems: MethodItem[] = [
-  { number: "01", title: "STRENGTH", body: "Build force you can use.", image: methodPhoto("1517836357463-d25dfeac3438"), alt: "Lifter setting up for a deadlift" },
-  { number: "02", title: "CONDITIONING", body: "Make your engine last.", image: methodPhoto("1599058917212-d750089bc07e"), alt: "Athlete slamming battle ropes" },
-  { number: "03", title: "RECOVERY", body: "Restore. Repeat. Evolve.", image: methodPhoto("1571019613454-1cb2f99b2d8b"), alt: "Woman doing core work on a mat" },
+  { title: "STRENGTH", body: "Build force you can use.", image: methodPhoto("1517836357463-d25dfeac3438"), alt: "Lifter setting up for a deadlift" },
+  { title: "CONDITIONING", body: "Make your engine last.", image: methodPhoto("1599058917212-d750089bc07e"), alt: "Athlete slamming battle ropes" },
+  { title: "RECOVERY", body: "Restore. Repeat. Evolve.", image: methodPhoto("1571019613454-1cb2f99b2d8b"), alt: "Woman doing core work on a mat" },
 ];
 const storyChapters = [
-  ["01", "PRIME", "Arrive with a plan. Leave with proof.", "WARM UP / MOBILITY / FOCUS"],
-  ["02", "LOAD", "The work gets heavy. Your standards do not.", "STRENGTH / POWER / ENGINE"],
-  ["03", "RESET", "Recover with as much intention as you train.", "BREATH / SAUNA / RESTORE"],
+  ["PRIME", "Arrive with a plan. Leave with proof."],
+  ["LOAD", "The work gets heavy. Your standards do not."],
+  ["RESET", "Recover with as much intention as you train."],
 ];
 const roomTitle = ["THE", "ROOM"] as const;
+/** "THE" in the wide face, "ROOM" in the tall one. Module-level so the memoised heading keeps it. */
+const roomLineClasses = ["t-wide", ""] as const;
+/**
+ * Over the glass carousel. The two faces alternate word by word (flat, slanted, flat …)
+ * rather than splitting the heading in two, so every line mixes them.
+ */
+const clubWords = [
+  { text: "WE", className: "t-flat" },
+  { text: "DON’T" },
+  { text: "CHASE", className: "t-flat" },
+  { text: "THE" },
+  { text: "AESTHETIC", className: "t-flat text-[#b8ee3e]" },
+  { text: "WE", newLine: true },
+  { text: "BUILD", className: "t-flat" },
+  { text: "THE" },
+  { text: "CAPACITY", className: "t-flat text-[#b8ee3e]" },
+] as const;
 /** Light palette per ritual chapter: PRIME, LOAD, RESET. */
 const chapterHalos = ["lime", "indigo", "stone"] as const;
 // Portrait (292:372) crops for the glass conveyor cards; served with CORS so WebGL can use them.
@@ -96,13 +113,13 @@ const workVideo = "https://assets.mixkit.co/videos/23056/23056-720.mp4";
 // Placeholder photography from Unsplash — swap for real BYCE shots when available.
 const unsplash = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=720&h=900&q=70`;
 const spaces: FanGalleryItem[] = [
-  { src: unsplash("1581009146145-b5ef050c2e1e"), alt: "Athlete curling a barbell in a busy gym", label: "PULL", title: "THE RIG", detail: "Pull-ups, rings and long hangs. Grip strength is earned here, one rep at a time." },
-  { src: unsplash("1576678927484-cc907957088c"), alt: "Long rack of dumbbells fading into the distance", label: "LOAD", title: "IRON ROW", detail: "Every dumbbell racked in order. Pick your weight and get to work." },
-  { src: unsplash("1541534741688-6078c6bfb5c5"), alt: "Woman gripping a barbell inside a squat rack", label: "PRESS", title: "THE CAGE", detail: "Racks with safeties set, so heavy days stay honest and stay safe." },
-  { src: unsplash("1517836357463-d25dfeac3438"), alt: "Lifter setting up for a deadlift on a rubber floor", label: "HINGE", title: "PLATFORM", detail: "Rubber floors and bumper plates. The heaviest lifts in the club happen here." },
-  { src: unsplash("1599058917212-d750089bc07e"), alt: "Athlete slamming battle ropes under a concrete ceiling", label: "ENGINE", title: "ENGINE ROOM", detail: "Ropes, sleds and bikes for conditioning that is short, hard and measured." },
-  { src: unsplash("1517963879433-6ad2b056d712"), alt: "Lifter's feet set wide under a loaded barbell on a rubber floor", label: "SQUAT", title: "SQUAT BAY", detail: "Depth, bracing and tempo, coached one working set at a time." },
-  { src: unsplash("1605296867304-46d5465a13f1"), alt: "Lifter crouched over a barbell in a dark gym", label: "LATE", title: "LAST REP", detail: "The late hours are quieter. The standard stays exactly the same." },
+  { src: unsplash("1581009146145-b5ef050c2e1e"), alt: "Athlete curling a barbell in a busy gym", title: "THE RIG", detail: "Pull-ups, rings and long hangs. Grip strength is earned here, one rep at a time." },
+  { src: unsplash("1576678927484-cc907957088c"), alt: "Long rack of dumbbells fading into the distance", title: "IRON ROW", detail: "Every dumbbell racked in order. Pick your weight and get to work." },
+  { src: unsplash("1541534741688-6078c6bfb5c5"), alt: "Woman gripping a barbell inside a squat rack", title: "THE CAGE", detail: "Racks with safeties set, so heavy days stay honest and stay safe." },
+  { src: unsplash("1517836357463-d25dfeac3438"), alt: "Lifter setting up for a deadlift on a rubber floor", title: "PLATFORM", detail: "Rubber floors and bumper plates. The heaviest lifts in the club happen here." },
+  { src: unsplash("1599058917212-d750089bc07e"), alt: "Athlete slamming battle ropes under a concrete ceiling", title: "ENGINE ROOM", detail: "Ropes, sleds and bikes for conditioning that is short, hard and measured." },
+  { src: unsplash("1517963879433-6ad2b056d712"), alt: "Lifter's feet set wide under a loaded barbell on a rubber floor", title: "SQUAT BAY", detail: "Depth, bracing and tempo, coached one working set at a time." },
+  { src: unsplash("1605296867304-46d5465a13f1"), alt: "Lifter crouched over a barbell in a dark gym", title: "LAST REP", detail: "The late hours are quieter. The standard stays exactly the same." },
 ];
 
 export default function Home() {
@@ -263,10 +280,10 @@ export default function Home() {
     {/* Logo centred, menu on the right; the empty first column keeps the logo truly centred. */}
     <header className="fixed inset-x-0 top-0 z-40 grid grid-cols-[1fr_auto_1fr] items-center px-5 py-5 mix-blend-difference md:px-10">
       <span aria-hidden="true" />
-      <a href="#top" className="flex items-center gap-2 font-black tracking-[-.06em] text-2xl">BYCE<span className="h-2 w-2 rounded-full bg-[#b8ee3e]" /></a>
+      <a href="#top" className="t-display flex items-center gap-2 text-[1.35rem]">BYCE<span className="h-2 w-2 rounded-full bg-[#b8ee3e]" /></a>
       <button onClick={() => setMenu(!menu)} aria-label="Open navigation" className="grid h-11 w-11 justify-self-end place-items-center rounded-full border border-white/30 bg-black/20 backdrop-blur"><Menu className={menu ? "hidden" : "block"} size={18}/><X className={menu ? "block" : "hidden"} size={18}/></button>
     </header>
-    {menu && <nav className="fixed inset-0 z-30 grid place-items-center bg-[#b8ee3e] text-[#101112]"><div className="text-center">{["THE CLUB", "THE METHOD", "SCHEDULE", "VISIT BYCE"].map((x,i)=><a onClick={()=>setMenu(false)} href={i===3?"#join":"#method"} className="block text-5xl font-black leading-[1.05] tracking-[-.045em] hover:italic md:text-8xl" key={x}>{x}</a>)}</div></nav>}
+    {menu && <nav className="fixed inset-0 z-30 grid place-items-center bg-[#b8ee3e] text-[#101112]"><div className="text-center">{["THE CLUB", "THE METHOD", "SCHEDULE", "VISIT BYCE"].map((x,i)=><a onClick={()=>setMenu(false)} href={i===3?"#join":"#method"} className="t-display block text-[7.5vw] leading-[.95] transition-[font-weight] duration-300 hover:font-light md:text-[5.6vw]" key={x}>{x}</a>)}</div></nav>}
 
     <section ref={heroRef} id="top" className="relative isolate flex min-h-screen overflow-hidden px-5 pb-8 pt-28 md:px-10">
       <motion.video
@@ -281,24 +298,24 @@ export default function Home() {
         <source src="https://assets.mixkit.co/active_storage/video_items/100546/1725385655/100546-video-720.mp4" type="video/mp4" />
       </motion.video>
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,11,10,.94)_0%,rgba(10,11,10,.47)_54%,rgba(10,11,10,.2)_100%),linear-gradient(0deg,rgba(10,11,10,.75),transparent_55%)]" />
-      <motion.div className="mt-auto w-full" style={reduce ? undefined : { opacity: heroFade }}><motion.div data-own-motion="" style={reduce ? undefined : { y: titleY, scale: titleScale }} className="hero-title"><motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, ease: settle, delay: 0.15 }} className="max-w-5xl text-[17vw] font-black uppercase leading-[.76] tracking-[-.058em] md:text-[12vw]">MOVE<br/><span className="ml-[10vw] text-[#b8ee3e]">WITH</span><br/>INTENT</motion.h1></motion.div><div className="mt-8 flex items-end justify-between border-t border-white/30 pt-4 text-[11px] font-bold tracking-[.12em]"><span>CHENNAI / INDIA</span><a href="#method" className="flex items-center gap-2 font-hand text-xl font-medium normal-case tracking-normal">Scroll to explore <ArrowDownRight size={18}/></a></div></motion.div>
+      <motion.div className="mt-auto w-full" style={reduce ? undefined : { opacity: heroFade }}><motion.div data-own-motion="" style={reduce ? undefined : { y: titleY, scale: titleScale }} className="hero-title"><motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, ease: settle, delay: 0.15 }} className="t-display text-[13vw] md:text-[8vw]">MOVE<span className="ml-[10vw] block t-flat text-[#b8ee3e]">WITH</span>INTENT</motion.h1></motion.div></motion.div>
     </section>
 
     {/* Full-screen glass conveyor; the cards run top-left to bottom-right, so the headline sits in the clear lower-left corner. */}
     <section className="relative isolate h-[100svh] min-h-[620px] overflow-hidden">
       <GlassExitCarousel photos={cardPhotos} label="Photos from the BYCE training floor" className="absolute inset-0" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_100%,rgba(16,17,18,.85),rgba(16,17,18,.4)_35%,transparent_60%)]" />
-      <div className="pointer-events-none absolute bottom-10 left-5 z-10 max-w-[min(60rem,88vw)] md:bottom-14 md:left-10 md:max-w-[min(60rem,56vw)]"><ScrollWords text="WE DON’T CHASE THE AESTHETIC WE BUILD THE CAPACITY" offset={["start end", "end end"]} className="text-4xl font-black leading-[.93] tracking-[-.037em] md:text-7xl" /></div>
+      <div className="pointer-events-none absolute bottom-10 left-5 z-10 max-w-[88vw] md:bottom-14 md:left-10 md:max-w-[min(72rem,66vw)]"><ScrollWords segments={clubWords} offset={["start end", "end end"]} className="t-display text-[7vw] md:text-[3.9vw]" /></div>
     </section>
 
     <section id="method" className="border-y border-white/15 px-5 md:px-10"><div className="h-10" aria-hidden="true" /><MethodReveal items={methodItems} /></section>
 
     <section ref={filmRef} className="chapter-film py-20 md:py-28">
-      <div className="chapter-film__heading px-5 md:px-10"><h2>THE<br/>RITUAL</h2><span className="font-hand !text-xl !font-medium normal-case !tracking-normal">Scroll through the chapters <ArrowDownRight size={16}/></span></div>
-      <div ref={railRef} className="chapter-rail">{storyChapters.map(([number, title, description, detail], index) => <article className={`chapter-card chapter-card--${index + 1}`} key={title}><div className="chapter-card__halo" aria-hidden="true"><HaloDrift palette={chapterHalos[index]} motion="aurora" offset={index * 6} exposure={0.72} /></div><div className="chapter-card__top"><span>{number}</span><span>BYCE / {detail}</span></div><div className="chapter-card__body"><p>{description}</p><h3>{title}</h3><button aria-label={`Explore ${title}`}><ArrowUpRight size={22}/></button></div><div className="chapter-card__count">0{index + 1} / 03</div></article>)}</div>
+      <div className="chapter-film__heading px-5 md:px-10"><h2 className="t-tall"><span className="t-wide block t-flat">THE</span>RITUAL</h2></div>
+      <div ref={railRef} className="chapter-rail">{storyChapters.map(([title, description], index) => <article className={`chapter-card chapter-card--${index + 1}`} key={title}><div className="chapter-card__halo" aria-hidden="true"><HaloDrift palette={chapterHalos[index]} motion="aurora" offset={index * 6} exposure={0.72} /></div><div className="chapter-card__body"><p>{description}</p><h3>{title}</h3><button aria-label={`Explore ${title}`}><ArrowUpRight size={22}/></button></div></article>)}</div>
     </section>
 
-    <section ref={workRef} className="relative min-h-[70vh] overflow-hidden px-5 py-24 md:px-10"><motion.div className="absolute overflow-hidden bg-[#101112]" style={reduce ? { inset: 0 } : { top: panelInset, bottom: panelInset, left: panelInset, right: panelInset, borderRadius: panelRadius }}><motion.video ref={workVideoRef} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={reduce ? undefined : { scale: workImageScale }}><source src={workVideo} type="video/mp4" /></motion.video><div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,11,10,.82)_0%,rgba(10,11,10,.55)_45%,rgba(10,11,10,.35)_100%),linear-gradient(0deg,rgba(10,11,10,.7),transparent_60%)]" /></motion.div><div className="relative z-10 grid gap-12 text-[#f3f0e8] md:grid-cols-12"><div className="md:col-span-8 md:col-start-5"><p data-own-motion="" className="text-[11vw] font-black uppercase leading-[.8] tracking-[-.05em] md:text-[8vw]"><motion.span className="block" style={reduce ? undefined : { x: lineLeft }}>THE</motion.span><motion.span className="block" style={reduce ? undefined : { x: lineRight }}>WORK</motion.span><motion.span className="block text-[#b8ee3e]" style={reduce ? undefined : { x: lineLeft }}>SHOWS</motion.span></p><div className="mt-12 flex max-w-md items-center justify-between border-t border-white/30 pt-4"><span className="text-xs font-bold">03 DISCIPLINES / ONE STANDARD</span><button className="grid h-14 w-14 place-items-center rounded-full bg-[#b8ee3e] text-[#101112] transition-transform hover:scale-110" aria-label="Play BYCE film"><Play size={17} fill="currentColor"/></button></div></div></div></section>
+    <section ref={workRef} className="relative min-h-[70vh] overflow-hidden px-5 py-24 md:px-10"><motion.div className="absolute overflow-hidden bg-[#101112]" style={reduce ? { inset: 0 } : { top: panelInset, bottom: panelInset, left: panelInset, right: panelInset, borderRadius: panelRadius }}><motion.video ref={workVideoRef} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={reduce ? undefined : { scale: workImageScale }}><source src={workVideo} type="video/mp4" /></motion.video><div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,11,10,.82)_0%,rgba(10,11,10,.55)_45%,rgba(10,11,10,.35)_100%),linear-gradient(0deg,rgba(10,11,10,.7),transparent_60%)]" /></motion.div><div className="relative z-10 grid gap-12 text-[#f3f0e8] md:grid-cols-12"><div className="md:col-span-8 md:col-start-5"><p data-own-motion="" className="t-display text-[13vw] md:text-[8vw]"><motion.span className="block t-flat" style={reduce ? undefined : { x: lineLeft }}>THE</motion.span><motion.span className="block" style={reduce ? undefined : { x: lineRight }}>WORK</motion.span><motion.span className="block t-flat text-[#b8ee3e]" style={reduce ? undefined : { x: lineLeft }}>SHOWS</motion.span></p><div className="mt-12"><button className="grid h-14 w-14 place-items-center rounded-full bg-[#b8ee3e] text-[#101112] transition-transform hover:scale-110" aria-label="Play BYCE film"><Play size={17} fill="currentColor"/></button></div></div></div></section>
 
     <section aria-label="Every session at BYCE" className="bg-[#0b0c0d]">
       <HeroParallax
@@ -306,7 +323,7 @@ export default function Home() {
         header={
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 1, ease: settle }}>
             
-            <h2 className="mt-6 text-6xl font-black uppercase leading-[.82] tracking-[-.05em] text-[#f3f0e8] md:text-9xl">THE CLUB,<br/><span className="text-[#b8ee3e]">IN MOTION</span></h2>
+            <h2 className="t-display mt-6 text-[9.5vw] text-[#f3f0e8] md:text-[7vw]"><span className="t-flat">THE</span> CLUB,<span className="block text-[#b8ee3e]">IN <span className="t-flat">MOTION</span></span></h2>
             <p className="mt-8 max-w-xl text-base leading-relaxed text-white/60 md:text-lg">Strength, engine and recovery, coached to the same standard every session. Scroll through the floor.</p>
           </motion.div>
         }
@@ -314,7 +331,7 @@ export default function Home() {
     </section>
 
     <section id="space" className="fan-section overflow-clip px-5 py-24 md:px-10 md:py-32">
-      <div className="grid gap-10 md:grid-cols-12"><div className="flex flex-col gap-8 md:col-span-8 md:col-start-5 lg:flex-row lg:items-end lg:justify-between"><RefractedText lines={roomTitle} className="text-[19vw] leading-[.8] tracking-[-.05em] md:text-[length:clamp(6rem,10vw,11rem)]" /><p className="max-w-xs text-sm leading-relaxed text-white/60 md:text-base">Seven corners of one floor. No mirrors to perform for, no machines you’ll never touch. Raise a frame to look closer.</p></div></div>
+      <div className="grid gap-10 md:grid-cols-12"><div className="flex flex-col gap-8 md:col-span-8 md:col-start-5 lg:flex-row lg:items-end lg:justify-between"><RefractedText lines={roomTitle} lineClassNames={roomLineClasses} className="text-[26vw] leading-[.86] md:text-[length:clamp(7rem,13vw,14rem)]" /><p className="max-w-xs text-sm leading-relaxed text-white/60 md:text-base">Seven corners of one floor. No mirrors to perform for, no machines you’ll never touch. Raise a frame to look closer.</p></div></div>
       <div ref={fanRef} className={reduce ? "mt-16 md:mt-24" : "relative mt-10 h-[300vh]"}>
         <div className={reduce ? "" : "sticky top-0 -mx-5 flex h-[100svh] flex-col justify-center overflow-hidden px-5 md:-mx-10 md:px-10"}>
           <FanGallery items={spaces} scatter={reduce ? undefined : fanScatter} />
@@ -336,8 +353,8 @@ export default function Home() {
           <GalleryOverlay
             lines={[
               
-              <h2 key="a" className="text-6xl font-black uppercase leading-[.82] tracking-[-.05em] text-[#f3f0e8] md:text-[9vw]">THE FLOOR</h2>,
-              <h2 key="b" className="text-6xl font-black uppercase leading-[.82] tracking-[-.05em] text-[#b8ee3e] md:text-[9vw]">NEVER LIES</h2>,
+              <h2 key="a" className="t-display text-[9vw] text-[#f3f0e8] md:text-[8vw]"><span className="t-flat">THE</span> FLOOR</h2>,
+              <h2 key="b" className="t-display text-[9vw] text-[#b8ee3e] md:text-[8vw]">NEVER <span className="t-flat">LIES</span></h2>,
             ]}
           />
         </ContainerSticky>
@@ -345,12 +362,12 @@ export default function Home() {
     </section>
 
     <section aria-label="One session, twelve moves" className="bg-[#101112]">
-      <div className="px-5 pb-4 pt-24 md:px-10 md:pt-32"><div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"><h2 className="text-5xl font-black uppercase leading-[.85] tracking-[-.045em] md:text-8xl">ONE SESSION,<br/><span className="text-[#b8ee3e]">TWELVE MOVES</span></h2><p className="max-w-xs text-sm leading-relaxed text-white/60">Keep scrolling. Every card is one block of a BYCE session, from the first step in to the last line in the log.</p></div></div>
+      <div className="px-5 pb-4 pt-24 md:px-10 md:pt-32"><div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"><h2 className="t-display text-[6.5vw] md:text-[5vw]"><span className="t-flat">ONE</span> SESSION,<span className="block text-[#b8ee3e]">TWELVE <span className="t-flat">MOVES</span></span></h2><p className="max-w-xs text-sm leading-relaxed text-white/60">Keep scrolling. Every card is one block of a BYCE session, from the first step in to the last line in the log.</p></div></div>
       <CardsRotateSlider images={sequenceCards} background="#101112" textColor="#f3f0e8" rotationAmount={1.1} verticalDrift={1.2} perspective={1000} />
     </section>
 
     <CinematicOrbitHero images={orbitPhotos}>
-      <h2 className="text-xl font-normal uppercase tracking-[.06em] text-[#f3f0e8] md:text-3xl">THE BOARD</h2>
+      <h2 className="t-display text-xl font-normal text-[#f3f0e8] md:text-3xl">THE BOARD</h2>
     </CinematicOrbitHero>
 
 
@@ -362,18 +379,33 @@ export default function Home() {
       </motion.div>
       
       <div data-own-motion="" className="pointer-events-none absolute bottom-10 left-5 z-10 md:bottom-14 md:left-10">
-        <motion.h2 style={reduce ? undefined : { opacity: floatHeadFade }} className="text-5xl font-black uppercase leading-[.82] tracking-[-.045em] text-[#f3f0e8] md:text-8xl">SHOW UP<br/><span className="text-[#b8ee3e]">EVERY DAY</span></motion.h2>
-      </div>
-      <span data-own-motion="" className="pointer-events-none absolute bottom-10 right-5 z-10 hidden font-hand text-xl font-medium tracking-normal text-white/55 md:bottom-14 md:right-10 md:block">Click a frame to open ↗</span>
-      </div>
+        <motion.h2 style={reduce ? undefined : { opacity: floatHeadFade }} className="t-display text-[9.5vw] text-[#f3f0e8] md:text-[5.3vw]">SHOW <span className="t-flat">UP</span><span className="block text-[#b8ee3e]"><span className="t-flat">EVERY</span> DAY</span></motion.h2>
+      </div>      </div>
     </section>
 
     <motion.div ref={joinRef} style={reduce ? undefined : { scale: joinScale, y: joinY }}><section id="join" className="relative isolate overflow-hidden bg-[#080909] text-[#f3f0e8]">
       {/* Drifting light behind the call to action, darkened toward the type. */}
       <div className="pointer-events-none absolute inset-0 -z-10"><HaloDrift /><div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,9,9,.55),rgba(8,9,9,.15)_60%,transparent)]" /></div>
-      <div className="grid gap-10 px-5 pb-16 pt-24 md:grid-cols-12 md:px-10 md:pb-28 md:pt-36"><div className="md:col-span-9 md:col-start-4"><h2 className="max-w-4xl text-[13vw] font-black uppercase leading-[.79] tracking-[-.055em] md:text-[9vw]">YOUR NEXT<br/>REP STARTS<br/>HERE</h2><a href="mailto:hello@byce.club?subject=BYCE%20trial" className="mt-12 inline-flex items-center gap-4 rounded-full bg-[#b8ee3e] px-7 py-4 text-xs font-bold tracking-[.14em] text-[#101112]">BOOK A FIRST SESSION <ArrowUpRight size={17}/></a></div></div>
+      <div className="grid gap-10 px-5 pb-16 pt-24 md:grid-cols-12 md:px-10 md:pb-28 md:pt-36"><div className="md:col-span-9 md:col-start-4"><h2 className="t-display text-[8.2vw] md:text-[6.2vw]"><span className="t-flat">YOUR</span> NEXT<br/>REP <span className="t-flat">STARTS</span><span className="block t-flat text-[#b8ee3e]">HERE</span></h2><a href="mailto:hello@byce.club?subject=BYCE%20trial" className="t-caps mt-12 inline-flex items-center gap-4 rounded-full bg-[#b8ee3e] px-7 py-4 text-[12px] text-[#101112]">BOOK A FIRST SESSION <ArrowUpRight size={17}/></a></div></div>
       {/* Footer sits inside the panel so the light runs to the bottom edge of the page. */}
-      <footer className="flex flex-col gap-6 border-t border-white/15 px-5 py-8 text-[10px] font-bold tracking-[.13em] text-white/55 md:flex-row md:items-center md:justify-between md:px-10"><span>© 2026 BYCE TRAINING CLUB</span><span>CHENNAI / IN</span><span>INSTAGRAM · WHATSAPP</span></footer>
+      <footer className="px-5 pb-12 pt-8 md:px-10 md:pb-16">
+        <div className="grid gap-10 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-6">
+            <a href="#top" className="t-display flex w-fit items-center gap-3 text-5xl md:text-6xl">BYCE<span className="h-3 w-3 rounded-full bg-[#b8ee3e]" /></a>
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">A training club in Chennai. Strength, engine and recovery, coached to one standard.</p>
+          </div>
+          <nav aria-label="Footer" className="flex flex-col gap-2.5 text-[15px] text-white/70 md:col-span-3">
+            <a href="#top" className="w-fit">The club</a>
+            <a href="#method" className="w-fit">The method</a>
+            <a href="#space" className="w-fit">The room</a>
+          </nav>
+          <div className="flex flex-col gap-2.5 text-[15px] text-white/70 md:col-span-3">
+            <a href="mailto:hello@byce.club" className="w-fit">hello@byce.club</a>
+            <span>Instagram</span>
+            <span>WhatsApp</span>
+          </div>
+        </div>
+      </footer>
     </section></motion.div>
   </main></MotionConfig>;
 }

@@ -6,8 +6,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"General Sans"', "Arial", "sans-serif"],
-        hand: ["Caveat", "cursive"],
-        mono: ['"DM Mono"', "ui-monospace", "monospace"],
+        display: ["Anybody", '"Arial Black"', "sans-serif"],
       },
     },
   },

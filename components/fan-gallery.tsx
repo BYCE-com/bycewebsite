@@ -16,8 +16,6 @@ import { motion, useTransform, type MotionValue } from "motion/react";
 export type FanGalleryItem = {
   src: string;
   alt: string;
-  /** Small tag in the card's top-left corner, e.g. "PULL". */
-  label: string;
   /** Display title printed on the card. */
   title: string;
   /** Sentence shown in the caption while the card is raised. */
@@ -347,9 +345,6 @@ function FanGalleryImpl({
                   <div className="fan-card__body">
                     <img className="fan-card__img" src={item.src} alt={item.alt} loading="lazy" decoding="async" draggable={false} />
                     <div className="fan-card__shade" aria-hidden="true" />
-                    <div className="fan-card__meta" aria-hidden="true">
-                      <div>{item.label}</div>
-                    </div>
                     <strong className="fan-card__title" aria-hidden="true">
                       {item.title}
                     </strong>
@@ -371,9 +366,6 @@ function FanGalleryImpl({
       {(() => {
         const caption = (
           <div className="fan-caption" aria-hidden="true">
-            <div className="fan-caption__count">
-              {active === null ? "--" : pad(active + 1)} / {pad(n)}
-            </div>
             <div className="fan-caption__body" key={active ?? "idle"}>
               <strong>{current ? current.title : "RAISE A FRAME"}</strong>
               <div>{current ? current.detail : "Hover or tap a card to pull it from the fan. Arrow keys work too."}</div>

@@ -8,7 +8,7 @@ import { Plus } from "lucide-react";
 import { motion, useMotionValue, useSpring, type Transition } from "motion/react";
 import { useRef, useState } from "react";
 
-export type MethodItem = { number: string; title: string; body: string; image: string; alt: string };
+export type MethodItem = { title: string; body: string; image: string; alt: string };
 
 type MethodRevealProps = {
   items: readonly MethodItem[];
@@ -78,9 +78,8 @@ export function MethodReveal({ items, imageWidth = 300, imageHeight = 400, offse
             transition={{ duration: 0.9, ease: settle, delay: i * 0.08 }}
             className="grid cursor-default items-center border-t border-white/15 py-7 md:grid-cols-12 md:py-10"
           >
-            <span className={`text-xs font-bold transition-colors duration-300 md:col-span-2 ${dim ? "text-white/25" : "text-[#b8ee3e]"}`}>{item.number}</span>
-            {/* Title rolls up to a lime copy of itself. */}
-            <h3 className="relative mt-5 overflow-hidden py-[.06em] text-5xl font-black leading-[1] tracking-[-.045em] md:col-span-6 md:mt-0 md:text-7xl">
+            {/* Title rolls up to a lime copy of itself; sized so CONDITIONING fits its column. */}
+            <h3 className="t-display relative overflow-hidden text-[6.6vw] leading-[1] md:col-span-6 md:col-start-3 md:text-[3.4vw]">
               <motion.span className="relative block" initial={false} animate={{ y: isHovered ? "-100%" : "0%" }} transition={SPRING}>
                 <span className={`block transition-colors duration-300 ${dim ? "text-[#51565a]" : "text-[#f3f0e8]"}`}>{item.title}</span>
                 <span aria-hidden="true" className="absolute left-0 top-full block text-[#b8ee3e]">{item.title}</span>
