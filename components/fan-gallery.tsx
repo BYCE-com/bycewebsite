@@ -107,8 +107,9 @@ function fitFan(width: number, count: number, spacing: number, spread: number) {
     const w = Math.min(target, width / (1 + (count - 1) * spacing + 0.3 + 2 * spread));
     return { w, h: w * ASPECT, s: spacing };
   }
-  // Phones: tighten the spacing first, then shrink, and allow a slight bleed into the gutters.
-  const room = width * 1.15;
+  // Phones: tighten the spacing first, then shrink. The footprint ignores the end cards'
+  // tilt, which adds a little width, so fitting it to the column keeps the whole fan on screen.
+  const room = width;
   const footprint = (w: number, s: number) => w * (1 + (count - 1) * s + 0.3);
   let s = spacing;
   let w = 140;
