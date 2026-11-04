@@ -52,8 +52,9 @@ const DEG_PER_SLOT = 15;
 const PERIOD = 44 / 60;
 const MOVE = 0.459999;
 const FIRST_MOVE = 0.47;
-/** Card kinds along the path; the loop repeats every KINDS steps. */
-const KINDS = 9;
+/** Card kinds along the path; the loop repeats every KINDS steps. BYCE: 18 (was 9), so a
+ *  full-screen path of about 18 cards shows 18 different photos instead of 9 twice. */
+const KINDS = 18;
 const MAX_SETS = 3;
 const BASE = -1;
 const FOV = 30;
