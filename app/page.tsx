@@ -362,7 +362,7 @@ export default function Home() {
     </section>
 
     <section aria-label="One session, twelve moves" className="bg-[#101112]">
-      <div className="px-5 pb-4 pt-24 md:px-10 md:pt-32"><div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"><h2 className="t-display text-[6.5vw] md:text-[5vw]"><span className="t-flat">ONE</span> SESSION,<span className="block text-[#b8ee3e]">TWELVE <span className="t-flat">MOVES</span></span></h2><p className="max-w-xs text-sm leading-relaxed text-white/60">Keep scrolling. Every card is one block of a BYCE session, from the first step in to the last line in the log.</p></div></div>
+      <div className="px-5 pb-4 pt-24 md:px-10 md:pt-32"><div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"><h2 className="t-display text-[6.5vw] md:text-[5vw]"><span className="t-flat">ONE</span> SESSION,<span className="block text-[#b8ee3e]">TWELVE <span className="t-flat">MOVES</span></span></h2><p className="max-w-xs text-sm leading-relaxed text-white/60">Keep scrolling. Every card is one block of a BYCE session, from the first step in to the last line in the log.</p></div></div>
       <CardsRotateSlider images={sequenceCards} background="#101112" textColor="#f3f0e8" rotationAmount={1.1} verticalDrift={1.2} perspective={1000} />
     </section>
 
@@ -394,15 +394,15 @@ export default function Home() {
             <a href="#top" className="t-display flex w-fit items-center gap-3 text-5xl md:text-6xl">BYCE<span className="h-3 w-3 rounded-full bg-[#b8ee3e]" /></a>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">A training club in Chennai. Strength, engine and recovery, coached to one standard.</p>
           </div>
-          <nav aria-label="Footer" className="flex flex-col gap-2.5 text-[15px] text-white/70 md:col-span-3">
-            <a href="#top" className="w-fit">The club</a>
-            <a href="#method" className="w-fit">The method</a>
-            <a href="#space" className="w-fit">The room</a>
+          <nav aria-label="Footer" className="flex flex-col text-[15px] text-white/70 md:col-span-3">
+            <a href="#top" className="w-fit py-1.5">The club</a>
+            <a href="#method" className="w-fit py-1.5">The method</a>
+            <a href="#space" className="w-fit py-1.5">The room</a>
           </nav>
-          <div className="flex flex-col gap-2.5 text-[15px] text-white/70 md:col-span-3">
-            <a href="mailto:hello@byce.club" className="w-fit">hello@byce.club</a>
-            <span>Instagram</span>
-            <span>WhatsApp</span>
+          <div className="flex flex-col text-[15px] text-white/70 md:col-span-3">
+            <a href="mailto:hello@byce.club" className="w-fit py-1.5">hello@byce.club</a>
+            <span className="py-1.5">Instagram</span>
+            <span className="py-1.5">WhatsApp</span>
           </div>
         </div>
       </footer>
