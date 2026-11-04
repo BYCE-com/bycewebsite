@@ -17,9 +17,9 @@ import { GlassExitCarousel } from "../components/glass-exit-carousel";
 
 const methodPhoto = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&h=800&q=72`;
 const methodItems: MethodItem[] = [
-  { title: "STRENGTH", body: "Build force you can use.", image: methodPhoto("1517836357463-d25dfeac3438"), alt: "Lifter setting up for a deadlift" },
-  { title: "CONDITIONING", body: "Make your engine last.", image: methodPhoto("1599058917212-d750089bc07e"), alt: "Athlete slamming battle ropes" },
-  { title: "RECOVERY", body: "Restore. Repeat. Evolve.", image: methodPhoto("1571019613454-1cb2f99b2d8b"), alt: "Woman doing core work on a mat" },
+  { title: "STRENGTH", body: "Build force you can use.", image: methodPhoto("1793393443234-fcd6369b3894"), alt: "Lifter in a singlet and knee sleeves pulling a heavy barbell" },
+  { title: "CONDITIONING", body: "Make your engine last.", image: methodPhoto("1669322779651-5ca89652492e"), alt: "Athlete working heavy battle ropes in a gym" },
+  { title: "RECOVERY", body: "Restore. Repeat. Evolve.", image: methodPhoto("1782297383356-fcffe56db9e8"), alt: "Runner lacing up on a track while a teammate stretches" },
 ];
 const storyChapters = [
   ["PRIME", "Arrive with a plan. Leave with proof."],
@@ -46,80 +46,86 @@ const clubWords = [
 ] as const;
 /** Light palette per ritual chapter: PRIME, LOAD, RESET. */
 const chapterHalos = ["lime", "indigo", "stone"] as const;
-// Portrait (292:372) crops for the glass conveyor cards; served with CORS so WebGL can use them.
-const cardPhotos = ["1517836357463-d25dfeac3438", "1541534741688-6078c6bfb5c5", "1599058917212-d750089bc07e", "1581009146145-b5ef050c2e1e", "1576678927484-cc907957088c", "1517963879433-6ad2b056d712", "1605296867304-46d5465a13f1", "1534438327276-14e5300c3a48", "1571019613454-1cb2f99b2d8b"].map((id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=584&h=744&q=72`);
+// Every photo on the page is a different Unsplash image; none is reused between sections.
+// Eighteen portrait (292:372) crops for the glass conveyor, one per card on its path, people
+// and equipment alternating; served with CORS so WebGL can use them.
+const cardPhotos = [
+  "1757911943473-d655859cefb7", "1720784713799-1e95cfeb81a9", "1726867894160-f8f6f5da16c7", "1685633225160-9b965f1715ff", "1772450014713-19bc36041593", "1709315872247-644b7ff5ed10",
+  "1639511205273-7af2f8805d10", "1623428455276-c5243d302dbe", "1732440290008-c092bda3ccbc", "1608947325823-976b1c65d14c", "1606889464198-fcb18894cf50", "1549719386-74dfcbf7dbed",
+  "1647456753452-e5d7cbf16df1", "1709315847224-6c8a812e886a", "1605720789771-a7fb8ab19d04", "1623874228601-f4193c7b1818", "1666121365392-b6f502f8b1c9", "1709315849916-bcd31d054deb",
+].map((id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=584&h=744&q=72`);
 const floatPhotos = [
-  ["1517836357463-d25dfeac3438", "Lifter setting up for a deadlift"],
-  ["1541534741688-6078c6bfb5c5", "Woman gripping a barbell in a rack"],
-  ["1599058917212-d750089bc07e", "Athlete slamming battle ropes"],
-  ["1581009146145-b5ef050c2e1e", "Athlete curling a barbell"],
-  ["1576678927484-cc907957088c", "Rack of dumbbells"],
-  ["1517963879433-6ad2b056d712", "Feet set under a loaded barbell"],
-  ["1605296867304-46d5465a13f1", "Lifter crouched over a barbell"],
-  ["1571019613454-1cb2f99b2d8b", "Woman doing sit-ups on a mat"],
-  ["1534438327276-14e5300c3a48", "Dumbbell racks across the gym floor"],
+  ["1737381508529-a110d717d5a7", "Boxer in a hoodie in the ring"],
+  ["1606328500899-38351f33df8a", "Lifter carrying a loaded barbell"],
+  ["1745329532629-8e1768963d3a", "Man lifting heavy weights"],
+  ["1778828450043-48a970748001", "Man doing dips on a machine"],
+  ["1772450014229-2a8b006893e9", "Man doing pull-ups"],
+  ["1774864107003-bc458669509d", "Athlete carrying kettlebells"],
+  ["1773289338378-2d083b1e5b84", "Two men training on heavy bags"],
+  ["1780398585038-d77d3817c3c6", "Man training on a rowing machine"],
+  ["1754630591156-ef00f2e0d888", "Hanging punching bags in a boxing gym"],
 ].map(([id, alt]) => ({ src: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&h=760&q=70`, alt }));
 // Three rows of five for the hero parallax; landscape (5:4) crops.
 const parallaxItems: ParallaxItem[] = [
-  ["1534438327276-14e5300c3a48", "Open Floor", "Dumbbell racks across the gym floor"],
-  ["1517836357463-d25dfeac3438", "Deadlift Clinic", "Lifter setting up for a deadlift"],
-  ["1599058917212-d750089bc07e", "Engine Room", "Athlete slamming battle ropes"],
-  ["1541534741688-6078c6bfb5c5", "Overhead Press", "Woman gripping a barbell in a rack"],
-  ["1581009146145-b5ef050c2e1e", "Barbell Club", "Athlete curling a barbell"],
-  ["1593079831268-3381b0db4a77", "Track Intervals", "Row of treadmills in a dark gym"],
-  ["1517963879433-6ad2b056d712", "Squat Bay", "Feet set wide under a loaded barbell"],
-  ["1576678927484-cc907957088c", "Iron Row", "Long rack of dumbbells"],
-  ["1571019613454-1cb2f99b2d8b", "Core & Mobility", "Woman doing core work on a mat"],
-  ["1605296867304-46d5465a13f1", "Late Lift", "Lifter crouched over a barbell"],
-  ["1526506118085-60ce8714f8c5", "The Rig", "Athlete on a pull-up bar"],
-  ["1540497077202-7c8a3999166f", "Strength Floor", "Bright gym floor with benches and racks"],
-  ["1549060279-7e168fcee0c2", "Grip Work", "Hands gripping a barbell"],
-  ["1574680096145-d05b474e2155", "Back Squat", "Woman with a barbell across her back"],
-  ["1583454110551-21f2fa2afe61", "Dumbbell Day", "Lifter picking up a dumbbell"],
+  ["1689877020200-403d8542d95d", "Open Floor", "Gym floor full of machines and weights"],
+  ["1521804906057-1df8fdb718b7", "Deadlift Clinic", "Lifter pulling a heavy barbell off a rubber floor"],
+  ["1519505907962-0a6cb0167c73", "Engine Room", "Athlete on a rowing machine"],
+  ["1761839258420-5c3e2f2e2a74", "Overhead Press", "Woman lifting weights in a gym"],
+  ["1554284126-aa88f22d8b74", "Barbell Club", "Three people lifting barbells together"],
+  ["1780319679390-9a8600c1355f", "Track Intervals", "Runner on a red athletics track"],
+  ["1784798228092-659924b1a15b", "Squat Bay", "Empty power rack with barbells and plates"],
+  ["1734630341082-0fec0e10126c", "Iron Row", "Row of dumbbells on a rack"],
+  ["1685633225009-9a612a71b945", "Core & Mobility", "Kettlebells and mats laid out for mobility work"],
+  ["1605296867724-fa87a8ef53fd", "Late Lift", "Lifter beside a barbell in a dark gym"],
+  ["1526401485004-46910ecc8e51", "Bumper Plates", "Stacks of coloured bumper plates"],
+  ["1623874514711-0f321325f318", "Strength Floor", "Benches and racks in a wide industrial gym"],
+  ["1517838277536-f5f99be501cd", "Grip Work", "Hands gripping a barbell"],
+  ["1758875569256-f37c438cac65", "Coached Sets", "Woman lifting while a coach watches"],
+  ["1641337221253-fdc7237f6b61", "Dumbbell Day", "Man holding a dumbbell in a gym"],
 ].map(([id, title, alt]) => ({ title, alt, image: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=960&h=768&q=70` }));
 // Three columns of four for the pinned photo wall; 16:9 crops.
 const galleryCols: [string, string][][] = [
-  [["1534438327276-14e5300c3a48", "Dumbbell racks across the floor"], ["1517836357463-d25dfeac3438", "Deadlift setup"], ["1599058917212-d750089bc07e", "Battle ropes"], ["1541534741688-6078c6bfb5c5", "Barbell in a rack"]],
-  [["1581009146145-b5ef050c2e1e", "Barbell curl"], ["1593079831268-3381b0db4a77", "Row of treadmills"], ["1517963879433-6ad2b056d712", "Loaded barbell on a rubber floor"], ["1576678927484-cc907957088c", "Rack of dumbbells"]],
-  [["1571019613454-1cb2f99b2d8b", "Core work on a mat"], ["1540497077202-7c8a3999166f", "Bright strength floor"], ["1549060279-7e168fcee0c2", "Hands gripping a barbell"], ["1583454110551-21f2fa2afe61", "Picking up a dumbbell"]],
+  [["1757924284732-4189190321cf", "Treadmills by tall windows"], ["1601422407692-ec4eeec1d9b3", "Kettlebell get-up"], ["1434596922112-19c563067271", "Woman holding battle ropes"], ["1558611848-73f7eb4001a1", "Barbell on a rack"]],
+  [["1671970922029-0430d2ae122c", "Gym full of equipment"], ["1758875569334-27579a49ed0b", "Push-ups with a partner spotting"], ["1571902943202-507ec2618e8f", "Equipment lined up in a gym"], ["1544033527-b192daee1f5b", "Dumbbells in black and white"]],
+  [["1534258936925-c58bed479fcb", "Two people training together"], ["1767404890859-73752f06716c", "Close-up of a 45 lb plate"], ["1570829460005-c840387bb1ca", "Gym interior"], ["1728486145245-d4cb0c9c3470", "Large gym floor with machines"]],
 ];
 // Eight cards for the orbit around "THE BOARD"
 const orbitPhotos = [
-  ["1517836357463-d25dfeac3438", "Deadlift setup"],
-  ["1599058917212-d750089bc07e", "Battle ropes"],
-  ["1541534741688-6078c6bfb5c5", "Barbell in a rack"],
-  ["1581009146145-b5ef050c2e1e", "Barbell curl"],
-  ["1571019613454-1cb2f99b2d8b", "Core work on a mat"],
-  ["1517963879433-6ad2b056d712", "Loaded barbell on a rubber floor"],
-  ["1605296867304-46d5465a13f1", "Lifter crouched over a barbell"],
-  ["1534438327276-14e5300c3a48", "Dumbbell racks across the floor"],
+  ["1646656130703-8f95eed6a79b", "Gym with a checkered floor"],
+  ["1590771998996-8589ec9b5ac6", "Man setting up under a barbell in a rack"],
+  ["1598971475122-95a9004e2922", "Man holding a dumbbell"],
+  ["1597452485670-5f32106899c3", "Man training on a bar"],
+  ["1570440828762-ab7a993dbde8", "Man holding a kettlebell"],
+  ["1765302907822-33032f78eb2c", "Kettlebell push-up"],
+  ["1549476464-37392f717541", "Man holding a bumper plate"],
+  ["1592588253414-887759037c2a", "Woman holding a barbell"],
 ].map(([id, alt]) => ({ alt, src: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&h=700&q=70` }));
 // The cards-rotate slider walks through one session, block by block; 16:9 crops.
 const sequenceCards = [
-  ["1534438327276-14e5300c3a48", "Arrive & Prime"],
-  ["1571019613454-1cb2f99b2d8b", "Mobility Flow"],
-  ["1541534741688-6078c6bfb5c5", "Activation"],
+  ["1771586791190-97ed536c54af", "Arrive & Prime"],
+  ["1738524108491-9a0db4067897", "Mobility Flow"],
+  ["1571019614242-c5c5dee9f50b", "Activation"],
   ["1517836357463-d25dfeac3438", "Main Lift"],
-  ["1517963879433-6ad2b056d712", "Back-off Sets"],
+  ["1605296867304-46d5465a13f1", "Back-off Sets"],
   ["1581009146145-b5ef050c2e1e", "Accessory Work"],
   ["1599058917212-d750089bc07e", "Engine Block"],
-  ["1593079831268-3381b0db4a77", "Intervals"],
-  ["1549060279-7e168fcee0c2", "Grip & Carries"],
-  ["1576678927484-cc907957088c", "Rack It"],
-  ["1605296867304-46d5465a13f1", "Breathe Down"],
-  ["1540497077202-7c8a3999166f", "Log the Session"],
+  ["1578763363228-6e8428de69b2", "Intervals"],
+  ["1541534741688-6078c6bfb5c5", "Grip & Carries"],
+  ["1517963879433-6ad2b056d712", "Rack It"],
+  ["1761839257789-20147513121a", "Breathe Down"],
+  ["1758875569414-120ebc62ada3", "Log the Session"],
 ].map(([id, text]) => ({ text, src: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1200&h=675&q=70` }));
 const workVideo = "https://assets.mixkit.co/videos/23056/23056-720.mp4";
 // Placeholder photography from Unsplash — swap for real BYCE shots when available.
 const unsplash = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=720&h=900&q=70`;
 const spaces: FanGalleryItem[] = [
-  { src: unsplash("1581009146145-b5ef050c2e1e"), alt: "Athlete curling a barbell in a busy gym", title: "THE RIG", detail: "Pull-ups, rings and long hangs. Grip strength is earned here, one rep at a time." },
-  { src: unsplash("1576678927484-cc907957088c"), alt: "Long rack of dumbbells fading into the distance", title: "IRON ROW", detail: "Every dumbbell racked in order. Pick your weight and get to work." },
-  { src: unsplash("1541534741688-6078c6bfb5c5"), alt: "Woman gripping a barbell inside a squat rack", title: "THE CAGE", detail: "Racks with safeties set, so heavy days stay honest and stay safe." },
-  { src: unsplash("1517836357463-d25dfeac3438"), alt: "Lifter setting up for a deadlift on a rubber floor", title: "PLATFORM", detail: "Rubber floors and bumper plates. The heaviest lifts in the club happen here." },
-  { src: unsplash("1599058917212-d750089bc07e"), alt: "Athlete slamming battle ropes under a concrete ceiling", title: "ENGINE ROOM", detail: "Ropes, sleds and bikes for conditioning that is short, hard and measured." },
-  { src: unsplash("1517963879433-6ad2b056d712"), alt: "Lifter's feet set wide under a loaded barbell on a rubber floor", title: "SQUAT BAY", detail: "Depth, bracing and tempo, coached one working set at a time." },
-  { src: unsplash("1605296867304-46d5465a13f1"), alt: "Lifter crouched over a barbell in a dark gym", title: "LAST REP", detail: "The late hours are quieter. The standard stays exactly the same." },
+  { src: unsplash("1762744827085-7c1a2573ecdb"), alt: "Man gripping a pull-up bar", title: "THE RIG", detail: "Pull-ups, rings and long hangs. Grip strength is earned here, one rep at a time." },
+  { src: unsplash("1791002630482-6a066253659c"), alt: "Stacks of dumbbells on gym shelves", title: "IRON ROW", detail: "Every dumbbell racked in order. Pick your weight and get to work." },
+  { src: unsplash("1590487988274-946a8635e5d6"), alt: "Row of squat racks", title: "THE CAGE", detail: "Racks with safeties set, so heavy days stay honest and stay safe." },
+  { src: unsplash("1772450014622-1c209d012c2e"), alt: "Woman lifting a heavy barbell", title: "PLATFORM", detail: "Rubber floors and bumper plates. The heaviest lifts in the club happen here." },
+  { src: unsplash("1636645370272-59e7a8911844"), alt: "Athlete gripping battle ropes", title: "ENGINE ROOM", detail: "Ropes, sleds and bikes for conditioning that is short, hard and measured." },
+  { src: unsplash("1680759170087-3c4659fa9244"), alt: "Lifter squatting in a rack", title: "SQUAT BAY", detail: "Depth, bracing and tempo, coached one working set at a time." },
+  { src: unsplash("1605490855119-94921710a47f"), alt: "Lifter carrying a dumbbell in a dark gym", title: "LAST REP", detail: "The late hours are quieter. The standard stays exactly the same." },
 ];
 
 export default function Home() {
