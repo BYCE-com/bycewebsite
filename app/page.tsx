@@ -29,12 +29,20 @@ const storyChapters = [
 const roomTitle = ["THE", "ROOM"] as const;
 /** "THE" in the wide face, "ROOM" in the tall one. Module-level so the memoised heading keeps it. */
 const roomLineClasses = ["t-wide", ""] as const;
-/** Over the glass carousel: what BYCE doesn't chase is set flat and upright, what it builds leans forward. */
+/**
+ * Over the glass carousel. The two faces alternate word by word (flat, slanted, flat …)
+ * rather than splitting the heading in two, so every line mixes them.
+ */
 const clubWords = [
-  { text: "WE DON’T CHASE THE", className: "t-flat" },
+  { text: "WE", className: "t-flat" },
+  { text: "DON’T" },
+  { text: "CHASE", className: "t-flat" },
+  { text: "THE" },
   { text: "AESTHETIC", className: "t-flat text-[#b8ee3e]" },
-  { text: "WE BUILD THE", newLine: true },
-  { text: "CAPACITY", className: "text-[#b8ee3e]" },
+  { text: "WE", newLine: true },
+  { text: "BUILD", className: "t-flat" },
+  { text: "THE" },
+  { text: "CAPACITY", className: "t-flat text-[#b8ee3e]" },
 ] as const;
 /** Light palette per ritual chapter: PRIME, LOAD, RESET. */
 const chapterHalos = ["lime", "indigo", "stone"] as const;
@@ -307,7 +315,7 @@ export default function Home() {
       <div ref={railRef} className="chapter-rail">{storyChapters.map(([title, description], index) => <article className={`chapter-card chapter-card--${index + 1}`} key={title}><div className="chapter-card__halo" aria-hidden="true"><HaloDrift palette={chapterHalos[index]} motion="aurora" offset={index * 6} exposure={0.72} /></div><div className="chapter-card__body"><p>{description}</p><h3>{title}</h3><button aria-label={`Explore ${title}`}><ArrowUpRight size={22}/></button></div></article>)}</div>
     </section>
 
-    <section ref={workRef} className="relative min-h-[70vh] overflow-hidden px-5 py-24 md:px-10"><motion.div className="absolute overflow-hidden bg-[#101112]" style={reduce ? { inset: 0 } : { top: panelInset, bottom: panelInset, left: panelInset, right: panelInset, borderRadius: panelRadius }}><motion.video ref={workVideoRef} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={reduce ? undefined : { scale: workImageScale }}><source src={workVideo} type="video/mp4" /></motion.video><div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,11,10,.82)_0%,rgba(10,11,10,.55)_45%,rgba(10,11,10,.35)_100%),linear-gradient(0deg,rgba(10,11,10,.7),transparent_60%)]" /></motion.div><div className="relative z-10 grid gap-12 text-[#f3f0e8] md:grid-cols-12"><div className="md:col-span-8 md:col-start-5"><p data-own-motion="" className="t-display text-[13vw] md:text-[8vw]"><motion.span className="block t-flat" style={reduce ? undefined : { x: lineLeft }}>THE</motion.span><motion.span className="block t-flat" style={reduce ? undefined : { x: lineRight }}>WORK</motion.span><motion.span className="block text-[#b8ee3e]" style={reduce ? undefined : { x: lineLeft }}>SHOWS</motion.span></p><div className="mt-12"><button className="grid h-14 w-14 place-items-center rounded-full bg-[#b8ee3e] text-[#101112] transition-transform hover:scale-110" aria-label="Play BYCE film"><Play size={17} fill="currentColor"/></button></div></div></div></section>
+    <section ref={workRef} className="relative min-h-[70vh] overflow-hidden px-5 py-24 md:px-10"><motion.div className="absolute overflow-hidden bg-[#101112]" style={reduce ? { inset: 0 } : { top: panelInset, bottom: panelInset, left: panelInset, right: panelInset, borderRadius: panelRadius }}><motion.video ref={workVideoRef} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={reduce ? undefined : { scale: workImageScale }}><source src={workVideo} type="video/mp4" /></motion.video><div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,11,10,.82)_0%,rgba(10,11,10,.55)_45%,rgba(10,11,10,.35)_100%),linear-gradient(0deg,rgba(10,11,10,.7),transparent_60%)]" /></motion.div><div className="relative z-10 grid gap-12 text-[#f3f0e8] md:grid-cols-12"><div className="md:col-span-8 md:col-start-5"><p data-own-motion="" className="t-display text-[13vw] md:text-[8vw]"><motion.span className="block t-flat" style={reduce ? undefined : { x: lineLeft }}>THE</motion.span><motion.span className="block" style={reduce ? undefined : { x: lineRight }}>WORK</motion.span><motion.span className="block t-flat text-[#b8ee3e]" style={reduce ? undefined : { x: lineLeft }}>SHOWS</motion.span></p><div className="mt-12"><button className="grid h-14 w-14 place-items-center rounded-full bg-[#b8ee3e] text-[#101112] transition-transform hover:scale-110" aria-label="Play BYCE film"><Play size={17} fill="currentColor"/></button></div></div></div></section>
 
     <section aria-label="Every session at BYCE" className="bg-[#0b0c0d]">
       <HeroParallax
@@ -315,7 +323,7 @@ export default function Home() {
         header={
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 1, ease: settle }}>
             
-            <h2 className="t-display mt-6 text-[9.5vw] text-[#f3f0e8] md:text-[7vw]">THE CLUB,<span className="block t-flat text-[#b8ee3e]">IN MOTION</span></h2>
+            <h2 className="t-display mt-6 text-[9.5vw] text-[#f3f0e8] md:text-[7vw]"><span className="t-flat">THE</span> CLUB,<span className="block text-[#b8ee3e]">IN <span className="t-flat">MOTION</span></span></h2>
             <p className="mt-8 max-w-xl text-base leading-relaxed text-white/60 md:text-lg">Strength, engine and recovery, coached to the same standard every session. Scroll through the floor.</p>
           </motion.div>
         }
@@ -345,8 +353,8 @@ export default function Home() {
           <GalleryOverlay
             lines={[
               
-              <h2 key="a" className="t-display text-[9vw] t-flat text-[#f3f0e8] md:text-[8vw]">THE FLOOR</h2>,
-              <h2 key="b" className="t-display text-[9vw] text-[#b8ee3e] md:text-[8vw]">NEVER LIES</h2>,
+              <h2 key="a" className="t-display text-[9vw] text-[#f3f0e8] md:text-[8vw]"><span className="t-flat">THE</span> FLOOR</h2>,
+              <h2 key="b" className="t-display text-[9vw] text-[#b8ee3e] md:text-[8vw]">NEVER <span className="t-flat">LIES</span></h2>,
             ]}
           />
         </ContainerSticky>
@@ -354,7 +362,7 @@ export default function Home() {
     </section>
 
     <section aria-label="One session, twelve moves" className="bg-[#101112]">
-      <div className="px-5 pb-4 pt-24 md:px-10 md:pt-32"><div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"><h2 className="t-display text-[6.5vw] md:text-[5vw]"><span className="t-flat">ONE SESSION,</span><span className="block text-[#b8ee3e]">TWELVE MOVES</span></h2><p className="max-w-xs text-sm leading-relaxed text-white/60">Keep scrolling. Every card is one block of a BYCE session, from the first step in to the last line in the log.</p></div></div>
+      <div className="px-5 pb-4 pt-24 md:px-10 md:pt-32"><div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"><h2 className="t-display text-[6.5vw] md:text-[5vw]"><span className="t-flat">ONE</span> SESSION,<span className="block text-[#b8ee3e]">TWELVE <span className="t-flat">MOVES</span></span></h2><p className="max-w-xs text-sm leading-relaxed text-white/60">Keep scrolling. Every card is one block of a BYCE session, from the first step in to the last line in the log.</p></div></div>
       <CardsRotateSlider images={sequenceCards} background="#101112" textColor="#f3f0e8" rotationAmount={1.1} verticalDrift={1.2} perspective={1000} />
     </section>
 
@@ -371,16 +379,33 @@ export default function Home() {
       </motion.div>
       
       <div data-own-motion="" className="pointer-events-none absolute bottom-10 left-5 z-10 md:bottom-14 md:left-10">
-        <motion.h2 style={reduce ? undefined : { opacity: floatHeadFade }} className="t-display text-[9.5vw] text-[#f3f0e8] md:text-[5.3vw]">SHOW UP<span className="block t-flat text-[#b8ee3e]">EVERY DAY</span></motion.h2>
+        <motion.h2 style={reduce ? undefined : { opacity: floatHeadFade }} className="t-display text-[9.5vw] text-[#f3f0e8] md:text-[5.3vw]">SHOW <span className="t-flat">UP</span><span className="block text-[#b8ee3e]"><span className="t-flat">EVERY</span> DAY</span></motion.h2>
       </div>      </div>
     </section>
 
     <motion.div ref={joinRef} style={reduce ? undefined : { scale: joinScale, y: joinY }}><section id="join" className="relative isolate overflow-hidden bg-[#080909] text-[#f3f0e8]">
       {/* Drifting light behind the call to action, darkened toward the type. */}
       <div className="pointer-events-none absolute inset-0 -z-10"><HaloDrift /><div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,9,9,.55),rgba(8,9,9,.15)_60%,transparent)]" /></div>
-      <div className="grid gap-10 px-5 pb-16 pt-24 md:grid-cols-12 md:px-10 md:pb-28 md:pt-36"><div className="md:col-span-9 md:col-start-4"><h2 className="t-display text-[8.2vw] md:text-[6.2vw]"><span className="t-flat">YOUR NEXT</span><br/>REP STARTS<span className="block text-[#b8ee3e]">HERE</span></h2><a href="mailto:hello@byce.club?subject=BYCE%20trial" className="t-caps mt-12 inline-flex items-center gap-4 rounded-full bg-[#b8ee3e] px-7 py-4 text-[12px] text-[#101112]">BOOK A FIRST SESSION <ArrowUpRight size={17}/></a></div></div>
+      <div className="grid gap-10 px-5 pb-16 pt-24 md:grid-cols-12 md:px-10 md:pb-28 md:pt-36"><div className="md:col-span-9 md:col-start-4"><h2 className="t-display text-[8.2vw] md:text-[6.2vw]"><span className="t-flat">YOUR</span> NEXT<br/>REP <span className="t-flat">STARTS</span><span className="block t-flat text-[#b8ee3e]">HERE</span></h2><a href="mailto:hello@byce.club?subject=BYCE%20trial" className="t-caps mt-12 inline-flex items-center gap-4 rounded-full bg-[#b8ee3e] px-7 py-4 text-[12px] text-[#101112]">BOOK A FIRST SESSION <ArrowUpRight size={17}/></a></div></div>
       {/* Footer sits inside the panel so the light runs to the bottom edge of the page. */}
-      <footer className="flex flex-col gap-6 border-t border-white/15 px-5 py-8 t-caps text-white/55 md:flex-row md:items-center md:justify-between md:px-10"><span>© 2026 BYCE TRAINING CLUB</span><span>CHENNAI / IN</span><span>INSTAGRAM · WHATSAPP</span></footer>
+      <footer className="px-5 pb-12 pt-8 md:px-10 md:pb-16">
+        <div className="grid gap-10 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-6">
+            <a href="#top" className="t-display flex w-fit items-center gap-3 text-5xl md:text-6xl">BYCE<span className="h-3 w-3 rounded-full bg-[#b8ee3e]" /></a>
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">A training club in Chennai. Strength, engine and recovery, coached to one standard.</p>
+          </div>
+          <nav aria-label="Footer" className="flex flex-col gap-2.5 text-[15px] text-white/70 md:col-span-3">
+            <a href="#top" className="w-fit">The club</a>
+            <a href="#method" className="w-fit">The method</a>
+            <a href="#space" className="w-fit">The room</a>
+          </nav>
+          <div className="flex flex-col gap-2.5 text-[15px] text-white/70 md:col-span-3">
+            <a href="mailto:hello@byce.club" className="w-fit">hello@byce.club</a>
+            <span>Instagram</span>
+            <span>WhatsApp</span>
+          </div>
+        </div>
+      </footer>
     </section></motion.div>
   </main></MotionConfig>;
 }
