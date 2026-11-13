@@ -283,9 +283,10 @@ export default function Home() {
   }, []);
   return <MotionConfig reducedMotion="user"><main className="site-shell bg-[#101112] text-[#f3f0e8] selection:bg-[#b8ee3e] selection:text-black">
     <div ref={spotRef} className="spotlight" aria-hidden="true" />
-    {/* Logo centred, menu on the right; the empty first column keeps the logo truly centred. */}
+    {/* Quote on the left (tablet and up), logo centred, menu on the right. The left cell stays in
+        place on phones, empty, so the logo remains truly centred. */}
     <header className="fixed inset-x-0 top-0 z-40 grid grid-cols-[1fr_auto_1fr] items-center px-5 py-5 mix-blend-difference md:px-10">
-      <span aria-hidden="true" />
+      <div><p className="hidden text-[13px] leading-tight text-white/80 md:block">Make the move, break the limits<span className="t-caps mt-1 block text-[11px] text-[#b8ee3e]">MOVEWITHINTENT</span></p></div>
       <a href="#top" className="t-display flex items-center gap-2 text-[1.35rem]">BYCE<span className="h-2 w-2 rounded-full bg-[#b8ee3e]" /></a>
       <button onClick={() => setMenu(!menu)} aria-label="Open navigation" className="grid h-11 w-11 justify-self-end place-items-center rounded-full border border-white/30 bg-black/20 backdrop-blur"><Menu className={menu ? "hidden" : "block"} size={18}/><X className={menu ? "block" : "hidden"} size={18}/></button>
     </header>
@@ -392,7 +393,7 @@ export default function Home() {
     <motion.div ref={joinRef} style={reduce ? undefined : { scale: joinScale, y: joinY }}><section id="join" className="relative isolate overflow-hidden bg-[#080909] text-[#f3f0e8]">
       {/* Drifting light behind the call to action, darkened toward the type. */}
       <div className="pointer-events-none absolute inset-0 -z-10"><HaloDrift /><div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,9,9,.55),rgba(8,9,9,.15)_60%,transparent)]" /></div>
-      <div className="grid gap-10 px-5 pb-16 pt-24 md:grid-cols-12 md:px-10 md:pb-28 md:pt-36"><div className="md:col-span-9 md:col-start-4"><h2 className="t-display text-[8.2vw] md:text-[6.2vw]"><span className="t-flat">YOUR</span> NEXT<br/>REP <span className="t-flat">STARTS</span><span className="block t-flat text-[#b8ee3e]">HERE</span></h2><a href="mailto:hello@byce.club?subject=BYCE%20trial" className="t-caps mt-12 inline-flex items-center gap-4 rounded-full bg-[#b8ee3e] px-7 py-4 text-[12px] text-[#101112]">BOOK A FIRST SESSION <ArrowUpRight size={17}/></a></div></div>
+      <div className="grid gap-10 px-5 pb-16 pt-24 md:grid-cols-12 md:px-10 md:pb-28 md:pt-36"><div className="md:col-span-9 md:col-start-4"><h2 className="t-display text-[8.2vw] md:text-[6.2vw]"><span className="t-flat">YOUR</span> NEXT<br/>REP <span className="t-flat">STARTS</span><span className="block t-flat text-[#b8ee3e]">HERE</span></h2><a href="mailto:info@byce.in?subject=BYCE%20trial" className="t-caps mt-12 inline-flex items-center gap-4 rounded-full bg-[#b8ee3e] px-7 py-4 text-[12px] text-[#101112]">BOOK A FIRST SESSION <ArrowUpRight size={17}/></a></div></div>
       {/* Footer sits inside the panel so the light runs to the bottom edge of the page. */}
       <footer className="px-5 pb-12 pt-8 md:px-10 md:pb-16">
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
@@ -406,7 +407,8 @@ export default function Home() {
             <a href="#space" className="w-fit py-1.5">The room</a>
           </nav>
           <div className="flex flex-col text-[15px] text-white/70 md:col-span-3">
-            <a href="mailto:hello@byce.club" className="w-fit py-1.5">hello@byce.club</a>
+            <a href="mailto:info@byce.in" className="w-fit py-1.5">info@byce.in</a>
+            <address className="py-1.5 text-sm not-italic leading-relaxed text-white/55">BYCE Technologies LLP<br />2/1149/I 100, Hilite Business Park<br />Olavanna, Kozhikode</address>
             <span className="py-1.5">Instagram</span>
             <span className="py-1.5">WhatsApp</span>
           </div>
