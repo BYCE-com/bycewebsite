@@ -283,10 +283,9 @@ export default function Home() {
   }, []);
   return <MotionConfig reducedMotion="user"><main className="site-shell bg-[#101112] text-[#f3f0e8] selection:bg-[#b8ee3e] selection:text-black">
     <div ref={spotRef} className="spotlight" aria-hidden="true" />
-    {/* Quote on the left (tablet and up), logo centred, menu on the right. The left cell stays in
-        place on phones, empty, so the logo remains truly centred. */}
+    {/* Logo centred, menu on the right; the empty first column keeps the logo truly centred. */}
     <header className="fixed inset-x-0 top-0 z-40 grid grid-cols-[1fr_auto_1fr] items-center px-5 py-5 mix-blend-difference md:px-10">
-      <div><p className="hidden text-[13px] leading-tight text-white/80 md:block">Make the move, break the limits<span className="t-caps mt-1 block text-[11px] text-[#b8ee3e]">MOVEWITHINTENT</span></p></div>
+      <span aria-hidden="true" />
       <a href="#top" className="t-display flex items-center gap-2 text-[1.35rem]">BYCE<span className="h-2 w-2 rounded-full bg-[#b8ee3e]" /></a>
       <button onClick={() => setMenu(!menu)} aria-label="Open navigation" className="grid h-11 w-11 justify-self-end place-items-center rounded-full border border-white/30 bg-black/20 backdrop-blur"><Menu className={menu ? "hidden" : "block"} size={18}/><X className={menu ? "block" : "hidden"} size={18}/></button>
     </header>
@@ -305,7 +304,7 @@ export default function Home() {
         <source src="https://assets.mixkit.co/active_storage/video_items/100546/1725385655/100546-video-720.mp4" type="video/mp4" />
       </motion.video>
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,11,10,.94)_0%,rgba(10,11,10,.47)_54%,rgba(10,11,10,.2)_100%),linear-gradient(0deg,rgba(10,11,10,.75),transparent_55%)]" />
-      <motion.div className="mt-auto w-full" style={reduce ? undefined : { opacity: heroFade }}><motion.div data-own-motion="" style={reduce ? undefined : { y: titleY, scale: titleScale }} className="hero-title"><motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, ease: settle, delay: 0.15 }} className="t-display text-[13vw] md:text-[8vw]">MOVE<span className="ml-[10vw] block t-flat text-[#b8ee3e]">WITH</span>INTENT</motion.h1></motion.div></motion.div>
+      <motion.div className="mt-auto w-full" style={reduce ? undefined : { opacity: heroFade }}><motion.div data-own-motion="" style={reduce ? undefined : { y: titleY, scale: titleScale }} className="hero-title"><motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, ease: settle, delay: 0.15 }} className="t-display text-[9.5vw] md:text-[7vw]"><span className="block">MAKE <span className="t-flat">THE</span></span><span className="t-flat block">MOVE,</span><span className="block text-[#b8ee3e] md:ml-[6vw]">BREAK <span className="t-flat">THE</span></span><span className="t-flat block text-[#b8ee3e] md:ml-[6vw]">LIMITS</span></motion.h1></motion.div></motion.div>
     </section>
 
     {/* Full-screen glass conveyor; the cards run top-left to bottom-right, so the headline sits in the clear lower-left corner. */}
